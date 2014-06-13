@@ -1,0 +1,68 @@
+Map it Function 
+(only admin / dispatch can view this button) 
+
+
+1.  link at top of page  "map-it" 
+
+2.  popup where user can select 
+		A.  Drop down #1  "filter"
+			i.    all
+			ii.   un-dispatched only
+			iii.  Dispatched and in-complete 
+			iv.	  un-dispatched and in-complete  
+		B.  Drop Down #2  "Division"
+			i.   All
+			II.  list of divisioins. 
+
+3.  On submit: 
+		A. Pin each address for order from TODAY (ONLY)
+			i.
+		
+		B. Color Code Pins (only show based on #2) 
+			i.  Red pin for all Undispatched orders 
+			ii. Blue pin for all orders Dispatched but not completed. 
+			iii.  Green pin for Completed orders 
+
+4.   Hover info (when user hovers over pin) 
+		a.  if dispatched,  what tech its dispatched to and what time it was dispatched 
+		b.  if complted,  what time it was completed 
+		c.  on all of them we would like date/time ordered  fldSchdate! 
+		
+			
+4.  If at all possible give dispatch option from pin???? 
+		a.  meaning user can dispatch by clicking on pin.  
+		
+		
+		https://208.125.57.215/order/
+[10:24:23 AM] vW_Douglas Potter: sorry
+[10:24:32 AM] vW_Douglas Potter: administrator / !mdi634
+[10:24:36 AM] vW_Douglas Potter: is for rdp
+[10:24:43 AM] vW_Douglas Potter: for web access its admin password
+[10:24:45 AM] vW_Douglas Potter: sorry
+[10:25:05 AM] .: DIROX :. Thach Kim Truong Son: [10:24 AM] vW_Douglas Potter:
+
+<<< for web access its admin password
+[10:25:06 AM] .: DIROX :. Thach Kim Truong Son: admin/password ?
+[10:25:10 AM] vW_Douglas Potter: sorry agin,  its admin / admin
+
+
+
+http://code.google.com/apis/maps/documentation/javascript/v2/examples/
+
+http://code.google.com/apis/maps/documentation/javascript/v2/examples/layer-simple.html
+
+http://gmaps-utility-library.googlecode.com/svn/trunk/markermanager/release/examples/weather_map.html
+
+http://maps.google.com/maps?hl=en&sugexp=pfwl&tok=0ew1BlXRrLPffZryWHFi-w&cp=22&gs_id=2s4&xhr=t&q=canon+marathon+vietnam&pq=marathon+in+vietnam&gs_sm=&gs_upl=&bav=on.2,or.r_gc.r_pw.,cf.osb&biw=1920&bih=886&um=1&ie=UTF-8&sa=N&tab=wl
+
+http://maps.google.com/maps?hl=en&tab=wl
+
+http://econym.org.uk/gmap/example_hoverchange75.htm
+
+http://www.powerhut.co.uk/googlemaps/custom_markers.php
+		
+		
+		
+
+
+

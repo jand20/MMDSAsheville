@@ -1,0 +1,5 @@
+ul.fdtablePaginater {display:inline-block;}
+ul.fdtablePaginater {display:inline;}
+ul.fdtablePaginater li {float:left;}
+ul.fdtablePaginater {text-align:center;}
+table { border-bottom:1px solid #C1DAD7; }

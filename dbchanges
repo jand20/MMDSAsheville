@@ -1,0 +1,21 @@
+ALTER TABLE  `tblorderdetails` ADD  `fldSign7` TINYINT NULL DEFAULT NULL AFTER  `fldSign6` ,
+ADD  `fldSign8` TINYINT NULL DEFAULT NULL AFTER  `fldSign7` ,
+ADD  `fldSign9` TINYINT NULL DEFAULT NULL AFTER  `fldSign8` ,
+ADD  `fldSign10` TINYINT NULL DEFAULT NULL AFTER  `fldSign9`,
+ADD  `fldReportCalledToDateTime` DATETIME NULL DEFAULT NULL AFTER `fldReportCalledTo`,
+ADD  `fldCDTimeRequested` TIME NULL DEFAULT NULL AFTER  `fldCDDate`,
+ADD  `labSentTo` VARCHAR( 50 ) NULL DEFAULT NULL COMMENT  'name of radiologist or lab for diagnostic reading' AFTER  `fldlabtype`,
+ADD  `fldLabDeliveredDate` DATE NULL DEFAULT NULL AFTER  `labSentTo` ,
+ADD  `fldLabDeliveredTime` TIME NULL DEFAULT NULL AFTER  `fldLabDeliveredDate`,
+ADD  `fldDispatchedDate` DATETIME NULL DEFAULT NULL AFTER  `fldDispatched` ;
+
+
+
+
+
+
+
+
+
+
+update tblorderdetails set fldSign1 = '1', fldSign2 = '', fldSign3 = '', fldSign4 = '', fldSign5 = '', fldSign6 = '', fldSign7 = '', fldSign8 = '', fldSign9 = '', fldSign10 = '', fldVerbal='1', fldReportDate='', fldReportCalledToDateTime='2013-11-27 09:20', fldReportCalledTo='RPTCLDTO', fldReportDetails='TECH NOTES', fldRadiologist='', fldExamDate='09:20', fldCDShipDate='11-28-2013', fldCDTimeRequested='00:00', tr_modified_by = 'admin', fldCDRequested = '2', fldCDDate = '2013-11-28', fldMarkCompletedDate = '2013-11-27 09:20', labSentTo = 'TEST', fldLabDeliveredDate = '2013-11-27', fldLabDeliveredTime = '09:20', fldTechnologist = 'ANN', fldDispatchedDate = '2013-11-27 09:20:00', tr_modified_date = '' ,fldDispatched='1' where fldID='41505'

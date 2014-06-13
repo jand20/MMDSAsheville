@@ -1,0 +1,131 @@
+<?php session_start();
+// if session is not set redirect the user
+if(empty($_SESSION['user']))
+header("Location:index.php");
+include "config.php";
+$sql_values_fetch =	mysql_fetch_array(mysql_query("select * from tblproceduremanagment where fldID='$id'"));
+?>
+<link href="style.css" rel="stylesheet" type="text/css" />
+<form action="" method="post">
+<table width="100%" border="0" background="main.png">
+  <tr>
+    <td width="6%">&nbsp;</td>
+    <td width="8%">&nbsp;</td>
+    <td width="4%">&nbsp;</td>
+    <td width="8%">&nbsp;</td>
+    <td width="4%">&nbsp;</td>
+    <td width="10%">&nbsp;</td>
+    <td width="4%">&nbsp;</td>
+    <td width="8%">&nbsp;</td>
+    <td width="4%">&nbsp;</td>
+    <td width="10%">&nbsp;</td>
+    <td width="4%">&nbsp;</td>
+    <td width="8%">&nbsp;</td>
+    <td width="6%">&nbsp;</td>
+  </tr>
+    <? if(isset($_GET['msg'])) { ?>
+    <tr>
+        <td colspan="13" height"10"><div align="center" class="war">CPT Code Already Exist</div></td>
+    </tr>
+    <tr>
+        <td height="5" colspan="13"></td>
+    </tr>
+  <? } ?>
+  <tr>
+    <td>&nbsp;</td>
+    <td class="lab">CPT Code</td>
+    <td><strong>:</strong></td>
+    <td><input type="text" name="cbtcode" value="<?=$sql_values_fetch['fldCBTCode']?>"></td>
+    <td>&nbsp;</td>
+    <td class="lab">Description</td>
+    <td><strong>:</strong></td>
+    <td><input type="text" name="description" value="<?=$sql_values_fetch['fldDescription']?>"></td> 
+    <td>&nbsp;</td>
+    <td class="lab">Modality</td>
+    <td><strong>:</strong></td>
+    <td>
+      <select name="modality">
+	  <option selected="selected" value="">Select</option>
+	  <?
+	  $sql="SELECT * FROM tbllists where fldListName = 'modality' order by fldValue";
+	  $result = mysql_query($sql);
+	  while($row = mysql_fetch_array($result))
+	   {?>
+	  <option value="<?=$row['fldValue']?>" <? if($sql_values_fetch['fldModality'] == $row['fldValue']) {?> selected="selected" <? } ?>><?=$row['fldValue']?></option>
+	  <? } ?>
+	  </select> </td>
+    <td>&nbsp;</td>
+ </tr>
+  <tr>
+    <td height="5" colspan="13"></td>
+  </tr>
+  <tr>
+    <td height="5" colspan="13"></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td class="lab">Category</td>
+    <td><strong>:</strong></td>
+    <td>
+      <select name="pcategory">
+	  <option selected="selected" value="">Select</option>
+	  <?
+	  $sql="SELECT * FROM tbllists where fldListName = 'pcategory' order by fldValue";
+	  $result = mysql_query($sql);
+	  while($row = mysql_fetch_array($result))
+	   {?>
+	  <option value="<?=$row['fldValue']?>" <? if($sql_values_fetch['fldCategory'] == $row['fldValue']) {?> selected="selected" <? } ?>><?=$row['fldValue']?></option>
+	  <? } ?>
+	  </select>    </td>
+
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+ </tr> 
+ 
+  <tr>
+    <td height="5" colspan="13"></td>
+  </tr>
+  <tr>
+ 
+  </tr>
+  <tr>
+    <td height="10" colspan="13"></td>
+  </tr>
+  <tr>
+    <td colspan="13" align="middle"><input type="submit" name="submit" value="Update"></td>
+  </tr>
+  <tr>
+    <td height="10" colspan="13"></td>
+  </tr>
+</table>
+</form>
+
+<?php
+// Getting Values from the registration to create Master Account
+
+
+if($_REQUEST['submit']!='')
+{
+
+$sql_insert = mysql_query("update tblproceduremanagment set
+fldCBTCode='".strip_tags(addslashes($_REQUEST['cbtcode']))."',
+fldDescription='".strip_tags(addslashes($_REQUEST['description']))."',
+fldModality='".strip_tags(addslashes($_REQUEST['modality']))."',
+fldCategory='".strip_tags(addslashes($_REQUEST['pcategory']))."' 
+where fldID='".$id."'") or die (mysql_error());
+
+if($sql_insert)
+{
+$redirecturl = "index.php?pg=9";
+header("location:".$redirecturl);
+}
+}
+?>
+

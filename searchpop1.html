@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Search</title>
+<script>
+window.resizeTo(400, 220);
+window.status.enable = 0;
+</script>
+<script type="text/javascript">
+function return_back(){
+window.returnValue = '?pg=20';
+}
+</script>
+</head>
+<body background="main.png">
+<form>
+&nbsp;
+Please Enter the Keyword to Search
+<br />
+<br />
+&nbsp;
+<input type="text" name="field">
+<select name="keyword" size="1" class="myselect2" id="keyword">
+<option value="fldPatientSSN" selected>Patient ID</option>
+<option value="fldLastName">Last Name</option>
+<option value="fldFirstName">First Name</option>
+<option value="fldDate">Order Date</option>
+<option value="fldSchDate">Exam Date</option>
+<option value="fldFacilityName">Facility</option>
+</select>
+<input type="button" onclick="returnValue='?pg=33&srch=' + document.forms[0].field.value+'&keyword='+document.forms[0].keyword.value;self.close();" value="Search">
+<br />
+<br />
+</form>
+<form>
+&nbsp;
+<input type="button" value="Close" onClick="return_back();window.close()">
+</form>
+&nbsp;
+Wild cards '*' can be used when searching text fields 
+</body>
+</html>

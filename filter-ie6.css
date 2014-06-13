@@ -1,0 +1,78 @@
+table
+        {
+        border-bottom: 1px solid #C1DAD7;
+        }
+/*a.fdFilterTrigger
+        {
+        margin-right:4px;
+        }
+*/
+#fdtl
+        {
+        background:none;
+        filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="fdtl.png", sizingMethod="scale");
+        }
+#fdtr
+        {
+        background:none;
+        filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="fdtr.png", sizingMethod="scale");
+        }
+#fdbl
+        {
+        background:none;
+        filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="fdbl.png", sizingMethod="scale");
+        }
+#fdbr
+        {
+        background:none;
+        filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="fdbr.png", sizingMethod="scale");
+        }
+#fdlb
+        {
+        background:none;
+        filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="fdlb.png", sizingMethod="scale");
+        }
+#fdrb
+        {
+        background:none;
+        filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="fdrb.png", sizingMethod="scale");
+        }
+#fdtb
+        {
+        background:none;
+        filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="fdtb.png", sizingMethod="scale");
+        }
+#fdbb
+        {
+        background:none;
+        filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="fdbb.png", sizingMethod="scale");
+        }
+#fddongle
+        {
+        background:none;
+        filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="fddongle.png", sizingMethod="crop");
+        }
+#fdbb, #fdtb
+        {
+        right:0;
+        width:expression((this.parentNode.offsetWidth - 14) + "px");
+        }
+#fdlb, #fdrb
+        {
+        bottom:0;
+        height:expression((this.parentNode.offsetHeight - 21) + "px");
+        }
+tr.fdFilterTableRow th form p
+        {
+        padding:0;
+        display:block;
+        width:100%;
+        }
+tr.fdFilterTableRow th form p input
+        {
+        width:auto;
+        }
+#fdTablefilterWrapper
+        {
+        overflow:hidden;
+        }

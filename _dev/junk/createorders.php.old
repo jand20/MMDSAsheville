@@ -1,0 +1,1526 @@
+<?php session_start();
+//if session is not set redirect the user
+if(empty($_SESSION['user']))
+header("Location:index.php");
+
+include "config.php";
+$user = $_SESSION['user'];
+$sql_values_fetch = mysql_fetch_array(mysql_query("select * from tbluser where fldUserName='$user'"));
+$fac=$sql_values_fetch['fldFacility'];
+$uid=$sql_values_fetch['fldID'];
+
+//  require_once "Mail.php"; // PEAR Mail package
+//  require_once ('Mail/mime.php'); // PEAR Mail_Mime packge
+
+$host = "mail.mdipacs.net";
+$username = "dpotter";
+$password = "brasil06";
+
+if($id !="")
+{
+$sql_values_fetch = mysql_fetch_array(mysql_query("select * from tblorderdetails where fldID='$id'"));
+$sql = "select * from tblorderdetails where fldID like '$id'";
+$result = mysql_query($sql) or die (mysql_error());
+$num=0;
+$num = mysql_num_rows($result);
+}
+
+if($pid !="")
+{
+$sql_values_fetch = mysql_fetch_array(mysql_query("select * from tblorderdetails where fldPatientID LIKE '$pid%'"));
+$sql = "select * from tblorderdetails where fldPatientID like '$pid" . "%'";
+$result = mysql_query($sql) or die (mysql_error());
+$num=0;
+$num = mysql_num_rows($result);
+}
+
+if(is_numeric($pid))
+{
+$sql_values_fetch = mysql_fetch_array(mysql_query("select * from tblorderdetails where fldPatientID='$pid'"));
+$sql = "select * from tblorderdetails where fldPatientID='$pid'";
+$result = mysql_query($sql) or die (mysql_error());
+$num=0;
+$num = mysql_num_rows($result);
+}
+?>
+<script type="text/javascript">
+function search_prompt() {
+var retVal=""
+var valReturned;
+retVal=showModalDialog('searchpop.htm');
+valReturned=retVal;
+location.replace(valReturned);
+}
+</script>
+<script type="text/javascript"></script>
+<script type="text/javascript">
+function cdenable(){
+if (document.getElementById('cdrequested').value != 0){
+document.getElementById('cdaddrlab').style.display = '';
+document.getElementById('cdaddr').style.display = '';
+} else {
+document.getElementById('cdaddrlab').style.display = 'none';
+document.getElementById('cdaddr').style.display = 'none';
+};
+}
+function phyenable(){
+if (document.forms[0].orderingphysicians.value == "new"){
+document.forms[0].phynew.style.display = "";
+} else {
+document.forms[0].phynew.style.display = "none";
+};
+}
+</script>
+<script type="text/javascript" src="facility.js"></script>
+<link href="style.css" rel="stylesheet" type="text/css" />
+<form action="" method="post">
+<table width="1050" border="0" cellpadding="0" cellspacing="0" background="main.png">
+  <tr>
+    <td><table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+      <?if ($newpt != 1 && $num == 0 && $pid != 0 && $pid !="") {?>
+      <tr>
+        <td><div align="center"><span class="war"><strong>Patient doesn't exist</strong></span></div></td>
+      </tr>
+      <?
+	  //$sql = "SELECT max(fldPatientID) as maxid from tblorderdetails where 1";
+	  //$result = mysql_query($sql) or die (mysql_error());
+	  //$newptid=$row[maxid];
+	  //if ($newptid < 25001)
+	  //{
+	  //$newptid=25000;
+	  //}
+	  //$newptid = $newptid + 1;
+	  //$pid = $newptid;
+      }
+      ?>
+      <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <?
+		  $time=date("Y-m-d H:i",time());
+		  function formatDate11($dDate){
+		  $dNewDate = strtotime($dDate);
+		  return date('m-d-Y',$dNewDate);
+		  }
+		  function formatDate12($dDate){
+		  $dNewDate = strtotime($dDate);
+		  return date('H:i',$dNewDate);
+		  }
+		  $time11=formatdate11($time);
+		  $time12=formatdate12($time);
+          ?>
+          <tr>
+            <td width="9%"><span class="lab">Today Date</span></td>
+            <td width="16%"><input name="schdate1" type="text" value="<?=$time11?>" id="schdate1" size="8"/></td>
+            <td width="13%" class="lab">Today Time </td>
+            <td width="31%"><input name="schdate2" type="text" class="myinput2" id="schdate2" value="<?=$time12?>"/></td>
+            <td width="6%">&nbsp;</td>
+            <td width="25%">&nbsp;</td>
+          </tr>
+
+        </table></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="9%">&nbsp;</td>
+            <td colspan="2"><input name="retrive" type="button" onclick="search_prompt()" value="Search" />
+              <input name="new" type="submit" id="new" value="New" /></td>
+            <td width="17%">&nbsp;</td>
+            <td width="9%">&nbsp;</td>
+            <td width="17%">&nbsp;</td>
+            <td width="6%">&nbsp;</td>
+            <td width="13%">&nbsp;</td>
+          </tr>
+          <tr>
+            <td><span class="lab">Last name</span></td>
+            <td width="16%"><input name="lastname" type="text" class="myinput1" value="<?=$sql_values_fetch['fldLastName']?>" /></td>
+            <td width="13%"><span class="lab">First name</span></td>
+            <td><input name="firstname" type="text" class="myinput1" value="<?=$sql_values_fetch['fldFirstName']?>" /></td>
+            <td><span class="lab">Middle name</span></td>
+            <td><input name="middlename" type="text" class="myinput1" value="<?=$sql_values_fetch['fldMiddleName']?>" /></td>
+            <td><span class="lab">Jr, Sr, II</span></td>
+            <td><input name="surname" type="text" class="myinput2" value="<?=$sql_values_fetch['fldSurName']?>" size="10" /></td>
+          </tr>
+          <tr>
+            <td class="lab">Patient MR# </td>
+            <td><input name="patientid" type="text" class="myinput2" value="<?=$pid?>" size="10" /></td>
+            <?
+	 		function formatDateddmmyy($dDate){
+			$dNewDate = strtotime($dDate);
+			return date('m-d-Y',$dNewDate);
+			}
+			$ddob="MM-DD-YYYY";
+			$fdob = $sql_values_fetch['fldDOB'];
+			if($fdob!='')
+			{
+			$ddob = formatDateddmmyy($fdob);
+			}
+			?>
+            <td><span class="lab">DOB (MM-DD-YYYY)</span></td>
+            <td><input name="dob" type="text" value="<?=$ddob?>" class="myinput1" /></td>
+            <td><span class="lab">Patient SSN</span></td>
+            <td><input name="patientssn" type="text" class="myinput1" value="<?=$sql_values_fetch['fldPatientSSN']?>" /></td>
+            <td><span class="lab">Sex</span></td>
+            <td><select name="sex">
+              <option value="" <? if($sql_values_fetch['fldGender'] == '') {?> selected="selected" <? } ?>>Select</option>
+              <option value="female" <? if($sql_values_fetch['fldGender'] == 'female') {?> selected="selected" <? } ?>>FEMALE</option>
+              <option value="male" <? if($sql_values_fetch['fldGender'] == 'male') {?> selected="selected" <? } ?>>MALE</option>
+            </select></td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td><span class="lab">Contact</span></td>
+            <td><input name="requester" type="text" class="myinput1"  value="<?=$sql_values_fetch['fldRequestedBy']?>" /></td>
+            <td width="10%"><span class="lab">Facility Name </span></td>
+            <td colspan="3"><select name="facility" class="myselect5" onchange="showUser(this.value)">
+              <option selected="selected" value="">Select</option>
+              <?
+			$sql="SELECT * FROM tblfacility where 1 order by fldFacilityName";
+			if($_SESSION['role'] =='facilityuser') { $sql="select * from tbluserfacdetails where fldUserID = '$uid'"; }
+			$result = mysql_query($sql);
+			while($row = mysql_fetch_array($result))
+			{?>
+              <option value="<?=$row['fldFacilityName']?>" <? if($sql_values_fetch['fldFacilityName'] == $row['fldFacilityName']) {?> selected="selected" <? } ?>>
+              <?=strtoupper($row['fldFacilityName'])?>
+              </option>
+              <? } ?>
+            </select></td>
+            <td width="6%" class="lab"> Phone </td>
+            <td width="19%"><div id="txtHint"><input name='faccontact' type='text' class='myinput1'  value='<?=$sql_values_fetch['fldFacPhone']?>' /></div></td>
+          </tr>
+          <tr>
+            <td width="5%"><span class="lab">Room #</span></td>
+            <td width="15%"><input name="patientroom" type="text" class="myinput1" value="<?=$sql_values_fetch['fldPatientroom']?>" /></td>
+            <td><span class="lab">Urgent</span></td>
+            <td width="12%"><input name="stat" type="checkbox" class="chk" value="1" <? if($sql_values_fetch['fldStat'] == 1) {?>checked="checked"<? } ?> /></td>
+            <td width="9%"><span class="lab">After Hours</span></td>
+            <td width="24%"><input name="afterhours" type="checkbox" class="chk" value="1" <? if($sql_values_fetch['fldAfterhours'] == 1) {?>checked="checked"<? } ?> /></td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="9%"><span class="lab">Procedure #1</span></td>
+            <td width="33%"><span class="lab">
+              <select name="procedure1" class="myselect2">
+                <option selected="selected" value="">Select</option>
+                <?
+				$sql="SELECT * FROM tblproceduremanagment order by fldDescription";
+				$result = mysql_query($sql);
+				while($row = mysql_fetch_array($result))
+				{?>
+                <option value="<?=$row['fldDescription']?>" <? if($sql_values_fetch['fldProcedure1'] == $row['fldDescription']) {?> selected="selected" <? } ?>>
+                <?=strtoupper($row['fldDescription'])?>
+                </option>
+                <? } ?>
+              </select>
+              <label>
+              <input type="radio" name="plr1" value="Left" <? if($sql_values_fetch['fldplr1'] == 'Left') {?> checked="checked" <? } ?> />
+L</label>
+              <label>
+              <input type="radio" name="plr1" value="Right" <? if($sql_values_fetch['fldplr1'] == 'Right') {?> checked="checked" <? } ?> />
+R</label>
+              <label>
+              <input type="radio" name="plr1" value="Bilateral" <? if($sql_values_fetch['fldplr1'] == 'Bilateral') {?> checked="checked" <? } ?> />
+B</label>
+            </span></td>
+            <td width="8%"><span class="lab">Symptom </span></td>
+            <td width="48%"><span class="lab">
+              <input name="symptoms1" type="text" size="40"  value="<?=$sql_values_fetch['fldSymptom1']?>" />
+            </span></td>
+            <td width="2%">&nbsp;</td>
+          </tr>
+          <tr>
+            <td><span class="lab">Procedure #2</span></td>
+            <td><span class="lab">
+              <select name="procedure2" class="myselect2">
+                <option selected="selected" value="">Select</option>
+                <?
+				$sql="SELECT * FROM tblproceduremanagment order by fldDescription";
+				$result = mysql_query($sql);
+				while($row = mysql_fetch_array($result))
+				{?>
+                <option value="<?=$row['fldDescription']?>" <? if($sql_values_fetch['fldProcedure2'] == $row['fldDescription']) {?> selected="selected" <? } ?>>
+                <?=strtoupper($row['fldDescription'])?>
+                </option>
+                <? } ?>
+              </select>
+              <label>
+              <input type="radio" name="plr2" value="Left" <? if($sql_values_fetch['fldplr2'] == 'Left') {?> checked="checked" <? } ?> />
+L</label>
+              <label>
+              <input type="radio" name="plr2" value="Right" <? if($sql_values_fetch['fldplr2'] == 'Right') {?> checked="checked" <? } ?> />
+R</label>
+              <label>
+              <input type="radio" name="plr2" value="Bilateral" <? if($sql_values_fetch['fldplr2'] == 'Bilateral') {?> checked="checked" <? } ?> />
+B</label>
+            </span></td>
+            <td><span class="lab">Symptom </span></td>
+            <td><span class="lab">
+              <input name="symptoms2" type="text" size="40"  value="<?=$sql_values_fetch['fldSymptom2']?>" />
+            </span></td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td><span class="lab">Procedure #3</span></td>
+            <td><span class="lab">
+              <select name="procedure3" class="myselect2">
+                <option selected="selected" value="">Select</option>
+                <?
+				$sql="SELECT * FROM tblproceduremanagment order by fldDescription";
+				$result = mysql_query($sql);
+				while($row = mysql_fetch_array($result))
+				{?>
+                <option value="<?=$row['fldDescription']?>" <? if($sql_values_fetch['fldProcedure3'] == $row['fldDescription']) {?> selected="selected" <? } ?>>
+                <?=strtoupper($row['fldDescription'])?>
+                </option>
+                <? } ?>
+              </select>
+              <label>
+              <input type="radio" name="plr3" value="Left" <? if($sql_values_fetch['fldplr3'] == 'Left') {?> checked="checked" <? } ?> />
+L</label>
+              <label>
+              <input type="radio" name="plr3" value="Right" <? if($sql_values_fetch['fldplr3'] == 'Right') {?> checked="checked" <? } ?> />
+R</label>
+              <label>
+              <input type="radio" name="plr3" value="Bilateral" <? if($sql_values_fetch['fldplr3'] == 'Bilateral') {?> checked="checked" <? } ?> />
+B</label>
+            </span></td>
+            <td><span class="lab">Symptom </span></td>
+            <td><span class="lab">
+              <input name="symptoms3" type="text" size="40"  value="<?=$sql_values_fetch['fldSymptom3']?>" />
+            </span></td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td><span class="lab">Procedure #4</span></td>
+            <td><span class="lab">
+              <select name="procedure4" class="myselect2">
+                <option selected="selected" value="">Select</option>
+                <?
+				$sql="SELECT * FROM tblproceduremanagment order by fldDescription";
+				$result = mysql_query($sql);
+				while($row = mysql_fetch_array($result))
+				{?>
+                <option value="<?=$row['fldDescription']?>" <? if($sql_values_fetch['fldProcedure4'] == $row['fldDescription']) {?> selected="selected" <? } ?>>
+                <?=strtoupper($row['fldDescription'])?>
+                </option>
+                <? } ?>
+              </select>
+              <label>
+              <input type="radio" name="plr4" value="Left" <? if($sql_values_fetch['fldplr4'] == 'Left') {?> checked="checked" <? } ?> />
+L</label>
+              <label>
+              <input type="radio" name="plr4" value="Right" <? if($sql_values_fetch['fldplr4'] == 'Right') {?> checked="checked" <? } ?> />
+R</label>
+              <label>
+              <input type="radio" name="plr4" value="Bilateral" <? if($sql_values_fetch['fldplr4'] == 'Bilateral') {?> checked="checked" <? } ?> />
+B</label>
+            </span></td>
+            <td><span class="lab">Symptom </span></td>
+            <td><span class="lab">
+              <input name="symptoms4" type="text" size="40"  value="<?=$sql_values_fetch['fldSymptom4']?>" />
+            </span></td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td><span class="lab">Procedure #5</span></td>
+            <td><span class="lab">
+              <select name="procedure5" class="myselect2">
+                <option selected="selected" value="">Select</option>
+                <?
+				$sql="SELECT * FROM tblproceduremanagment order by fldDescription";
+				$result = mysql_query($sql);
+				while($row = mysql_fetch_array($result))
+				{?>
+                <option value="<?=$row['fldDescription']?>" <? if($sql_values_fetch['fldProcedure5'] == $row['fldDescription']) {?> selected="selected" <? } ?>>
+                <?=strtoupper($row['fldDescription'])?>
+                </option>
+                <? } ?>
+              </select>
+              <label>
+              <input type="radio" name="plr5" value="Left" <? if($sql_values_fetch['fldplr5'] == 'Left') {?> checked="checked" <? } ?> />
+L</label>
+              <label>
+              <input type="radio" name="plr5" value="Right" <? if($sql_values_fetch['fldplr5'] == 'Right') {?> checked="checked" <? } ?> />
+R</label>
+              <label>
+              <input type="radio" name="plr5" value="Bilateral" <? if($sql_values_fetch['fldplr5'] == 'Bilateral') {?> checked="checked" <? } ?> />
+B</label>
+            </span></td>
+            <td><span class="lab">Symptom </span></td>
+            <td><span class="lab">
+              <input name="symptoms5" type="text" size="40"  value="<?=$sql_values_fetch['fldSymptom5']?>" />
+            </span></td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td><span class="lab">Procedure #6</span></td>
+            <td><span class="lab">
+              <select name="procedure6" class="myselect2">
+                <option selected="selected" value="">Select</option>
+                <?
+				$sql="SELECT * FROM tblproceduremanagment order by fldDescription";
+				$result = mysql_query($sql);
+				while($row = mysql_fetch_array($result))
+				{?>
+                <option value="<?=$row['fldDescription']?>" <? if($sql_values_fetch['fldProcedure6'] == $row['fldDescription']) {?> selected="selected" <? } ?>>
+                <?=strtoupper($row['fldDescription'])?>
+                </option>
+                <? } ?>
+              </select>
+              <label>
+              <input type="radio" name="plr6" value="Left" <? if($sql_values_fetch['fldplr6'] == 'Left') {?> checked="checked" <? } ?> />
+L</label>
+              <label>
+              <input type="radio" name="plr6" value="Right" <? if($sql_values_fetch['fldplr6'] == 'Right') {?> checked="checked" <? } ?> />
+R</label>
+              <label>
+              <input type="radio" name="plr6" value="Bilateral" <? if($sql_values_fetch['fldplr6'] == 'Bilateral') {?> checked="checked" <? } ?> />
+B</label>
+            </span></td>
+            <td><span class="lab">Symptom </span></td>
+            <td><span class="lab">
+              <input name="symptoms6" type="text" size="40"  value="<?=$sql_values_fetch['fldSymptom6']?>" />
+            </span></td>
+            <td>&nbsp;</td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td><span class="lab">Additional Patient Info</span></td>
+          </tr>
+          <tr>
+            <td><input name="symptoms" type="text"  value="<?=$sql_values_fetch['fldSymptoms']?>" size="150" /></td>
+          </tr>
+          <tr>
+            <td><span class="lab">History:</span></td>
+          </tr>
+          <tr>
+            <td><input name="history" type="text"  value="<?=$sql_values_fetch['fldHistory']?>" size="150" /></td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="12%"><span class="lab">Referring Dr. </span></td>
+            <td width="25%"><select name="orderingphysicians" class="myselect1" onChange="phyenable();">
+              <option selected="selected" value="">Select</option>
+              <?
+			  if($_SESSION['role'] =='facilityuser')
+    		  {
+    		  $sql="SELECT * FROM tbluser where fldRole='orderingphysician' and fldFacility='$user'";
+			  } else {
+			  $sql="SELECT * FROM tbluser where fldRole='orderingphysician' order by fldRealName";
+			  }
+			  $result = mysql_query($sql);
+			  while($row = mysql_fetch_array($result))
+	     	  {?>
+              <option value="<?=$row['fldRealName']?>" <? if($sql_values_fetch['fldOrderingPhysicians'] == $row['fldRealName']) {?> selected="selected" <? } ?>>
+              <?=strtoupper($row['fldRealName'])?>
+              </option>
+              <? } ?>
+              <option value="new">Not In List</option>
+            </select></td>
+            <td width="15%"><input name="phynew" id="phynew" style="display: none;"/></td>
+            <td width="20%"><span class="lab">Date Exam needed: </span></td>
+            <td width="8%"><input name="schdate12" type="text" value="<?=$time11?>" id="schdate12" size="8"/></td>
+            <td width="12%"><span class="lab">Time exam needed:</span></td>
+            <td width="8%"><input name="schdate22" type="text" value="<?=$time12?>" id="schdate22" size="2"/></td>
+          </tr>
+          <tr>
+            <td class="lab">CD Needed ? </td>
+            <td>
+			<select name="cdrequested" id="cdrequested" onChange="cdenable();"> >
+			<option value="1">Y</option>
+			<option value="0" selected="selected">N</option>
+			</select>			</td>
+			<td>&nbsp;</td>
+            <td class="lab"><label align="left" name="cdaddrlab" id="cdaddrlab" style="display: none;">Address to send CD</label></td>
+            <td colspan="3"><textarea name="cdaddr" id="cdaddr" style="display: none;" cols="50" rows="4"></textarea></td>
+            </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td><span class="lab">Insurance Type</span></td>
+            <td><select name="insurance" class="myselect1">
+              <option selected="selected" value="">Select</option>
+              <?
+	  		  $sql="SELECT * FROM tbllists where fldListName = 'insurance' order by fldValue";
+	  		  $result = mysql_query($sql);
+	  		  while($row = mysql_fetch_array($result))
+	  		  {?>
+              <option value="<?=$row['fldValue']?>"<? if($sql_values_fetch['fldInsurance'] == $row['fldValue']) {?> selected="selected" <? } ?>>
+              <?=strtoupper($row['fldValue'])?>
+              </option>
+              <? } ?>
+            </select></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="13%"><span class="lab">Medicare #</span></td>
+            <td width="28%"><input name="medicare" type="text" class="myinput1" value="<?=$sql_values_fetch['fldMedicareNumber']?>" /></td>
+            <td width="11%"><span class="lab">Medicaid #</span></td>
+            <td width="21%"><input name="medicaid" type="text" class="myinput1" value="<?=$sql_values_fetch['fldMedicaidNumber']?>" /></td>
+            <td width="7%"><span class="lab">State #</span></td>
+            <td width="20%"><select name="state">
+                <option value="IA" <? if($sql_values_fetch['fldState'] == "IA") {?> selected="selected" <? } ?>>IA</option>
+                <option value="KS" <? if($sql_values_fetch['fldState'] == "KS") {?> selected="selected" <? } ?>>KS</option>
+                <option value="MO" <? if($sql_values_fetch['fldState'] == "MO") {?> selected="selected" <? } ?>>MO</option>
+                <option value="NE" <? if($sql_values_fetch['fldState'] == "NE") {?> selected="selected" <? } ?>>NE</option>
+              </select></td>
+          </tr>
+          <tr>
+            <td><span class="lab">Insurance Company </span></td>
+            <td><input name="insurancecompanyname" type="text" class="myinput3" value="<?=$sql_values_fetch['fldInsuranceCompanyName']?>" /></td>
+            <td><span class="lab">Policy #</span></td>
+            <td><input name="policy" type="text" class="myinput1" value="<?=$sql_values_fetch['fldPolicy']?>" /></td>
+            <td><span class="lab">Group #</span></td>
+            <td><input name="group" type="text" class="myinput1" value="<?=$sql_values_fetch['fldGroup']?>" /></td>
+          </tr>
+          <tr>
+            <td><span class="lab">HMO Name/Contract </span></td>
+            <td><input name="hmo_contract" type="text" class="myinput1" value="<?=$sql_values_fetch['fldHmoContract']?>" /></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="13%"><span class="lab">Responsible Party:</span></td>
+            <td width="28%"><input name="responsibleperson" type="text" class="myinput3"  value="<?=$sql_values_fetch['fldResponsiblePerson']?>" /></td>
+            <td width="11%"><span class="lab">Relationship</span></td>
+            <td width="48%"><select name="relationship" class="myselect2">
+              <option selected="selected" value="">Select</option>
+              <?
+    		  $sql="SELECT * FROM tbllists where fldListName = 'relationship' order by fldValue";
+    		  $result = mysql_query($sql);
+    		  while($row = mysql_fetch_array($result))
+    		  {?>
+              <option value="<?=$row['fldValue']?>" <? if($sql_values_fetch['fldRelationship'] == $row['fldValue']) {?> selected="selected" <? } ?>>
+              <?=strtoupper($row['fldValue'])?>
+              </option>
+              <? } ?>
+            </select></td>
+          </tr>
+          <tr>
+            <td><span class="lab">Address #1</span></td>
+            <td><input name="privatestreetaddress1" type="text" class="myinput3" value="<?=$sql_values_fetch['fldPrivateAddressLine1']?>" /></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td><span class="lab">Address #2 </span></td>
+            <td><input name="privatestreetaddress2" type="text" class="myinput3" value="<?=$sql_values_fetch['fldPrivateAddressLine2']?>" /></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td><span class="lab">City</span></td>
+            <td><input name="privatecity" type="text" class="myinput3" value="<?=$sql_values_fetch['fldPrivateAddressCity']?>" /></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td><span class="lab">State </span></td>
+            <td><select name="privatestate" size="1" class="myselect2" id="privatestate">
+              <option selected="selected">Select a State</option>
+              <option value="Alaska" <? if($sql_values_fetch['fldPrivateAddressState'] == "Alaska") {?> selected="selected" <? } ?>>Alaska</option>
+      <option value="Alabama" <? if($sql_values_fetch['fldPrivateAddressState'] == "Alabama") {?> selected="selected" <? } ?>>Alabama</option>
+      <option value="Arkansas" <? if($sql_values_fetch['fldPrivateAddressState'] == "Arkansas") {?> selected="selected" <? } ?>>Arkansas</option>
+      <option value="Arizona" <? if($sql_values_fetch['fldPrivateAddressState'] == "Arizona") {?> selected="selected" <? } ?>>Arizona</option>
+      <option value="California" <? if($sql_values_fetch['fldPrivateAddressState'] == "California") {?> selected="selected" <? } ?>>California</option>
+      <option value="Colorado" <? if($sql_values_fetch['fldPrivateAddressState'] == "Colorado") {?> selected="selected" <? } ?>>Colorado</option>
+      <option value="Connecticut" <? if($sql_values_fetch['fldPrivateAddressState'] == "Connecticut") {?> selected="selected" <? } ?>>Connecticut</option>
+      <option value="Washington D C" <? if($sql_values_fetch['fldPrivateAddressState'] == "Washington D C") {?> selected="selected" <? } ?>>Washington D C</option>
+      <option value="Delaware" <? if($sql_values_fetch['fldPrivateAddressState'] == "Delaware") {?> selected="selected" <? } ?>>Delaware</option>
+      <option value="Florida" <? if($sql_values_fetch['fldPrivateAddressState'] == "Florida") {?> selected="selected" <? } ?>>Florida</option>
+      <option value="Georgia" <? if($sql_values_fetch['fldPrivateAddressState'] == "Georgia") {?> selected="selected" <? } ?>>Georgia</option>
+      <option value="Hawaii" <? if($sql_values_fetch['fldPrivateAddressState'] == "Hawaii") {?> selected="selected" <? } ?>>Hawaii</option>
+      <option value="Iowa" <? if($sql_values_fetch['fldPrivateAddressState'] == "Iowa") {?> selected="selected" <? } ?>>Iowa</option>
+      <option value="Idaho" <? if($sql_values_fetch['fldPrivateAddressState'] == "Idaho") {?> selected="selected" <? } ?>>Idaho</option>
+      <option value="Illinois" <? if($sql_values_fetch['fldPrivateAddressState'] == "Illinois") {?> selected="selected" <? } ?>>Illinois</option>
+      <option value="Indiana" <? if($sql_values_fetch['fldPrivateAddressState'] == "Indiana") {?> selected="selected" <? } ?>>Indiana</option>
+      <option value="Kansas" <? if($sql_values_fetch['fldPrivateAddressState'] == "Kansas") {?> selected="selected" <? } ?>>Kansas</option>
+      <option value="Kentucky" <? if($sql_values_fetch['fldPrivateAddressState'] == "Kentucky") {?> selected="selected" <? } ?>>Kentucky</option>
+      <option value="Louisiana" <? if($sql_values_fetch['fldPrivateAddressState'] == "Louisiana") {?> selected="selected" <? } ?>>Louisiana</option>
+      <option value="Massachusetts" <? if($sql_values_fetch['fldPrivateAddressState'] == "Massachusetts") {?> selected="selected" <? } ?>>Massachusetts</option>
+      <option value="Maryland" <? if($sql_values_fetch['fldPrivateAddressState'] == "Maryland") {?> selected="selected" <? } ?>>Maryland</option>
+      <option value="Maine" <? if($sql_values_fetch['fldPrivateAddressState'] == "Maine") {?> selected="selected" <? } ?>>Maine</option>
+      <option value="Michigan" <? if($sql_values_fetch['fldPrivateAddressState'] == "Michigan") {?> selected="selected" <? } ?>>Michigan</option>
+      <option value="Minnesota" <? if($sql_values_fetch['fldPrivateAddressState'] == "Minnesota") {?> selected="selected" <? } ?>>Minnesota</option>
+      <option value="Missourri" <? if($sql_values_fetch['fldPrivateAddressState'] == "Missourri") {?> selected="selected" <? } ?>>Missourri</option>
+      <option value="Mississippi" <? if($sql_values_fetch['fldPrivateAddressState'] == "Mississippi") {?> selected="selected" <? } ?>>Mississippi</option>
+      <option value="Montana" <? if($sql_values_fetch['fldPrivateAddressState'] == "Montana") {?> selected="selected" <? } ?>>Montana</option>
+      <option value="North Carolina" <? if($sql_values_fetch['fldPrivateAddressState'] == "North Carolina") {?> selected="selected" <? } ?>>North Carolina</option>
+      <option value="North Dakota" <? if($sql_values_fetch['fldPrivateAddressState'] == "North Dakota") {?> selected="selected" <? } ?>>North Dakota</option>
+      <option value="Nebraska" <? if($sql_values_fetch['fldPrivateAddressState'] == "Nebraska") {?> selected="selected" <? } ?>>Nebraska</option>
+      <option value="New Hampshire" <? if($sql_values_fetch['fldPrivateAddressState'] == "New Hampshire") {?> selected="selected" <? } ?>>New Hampshire</option>
+      <option value="New Jersey" <? if($sql_values_fetch['fldPrivateAddressState'] == "New Jersey") {?> selected="selected" <? } ?>>New Jersey</option>
+      <option value="New Mexico" <? if($sql_values_fetch['fldPrivateAddressState'] == "New Mexico") {?> selected="selected" <? } ?>>New Mexico</option>
+      <option value="Nevada" <? if($sql_values_fetch['fldPrivateAddressState'] == "Nevada") {?> selected="selected" <? } ?>>Nevada</option>
+      <option value="New York" <? if($sql_values_fetch['fldPrivateAddressState'] == "New York") {?> selected="selected" <? } ?>>New York</option>
+      <option value="Ohio" <? if($sql_values_fetch['fldPrivateAddressState'] == "Ohio") {?> selected="selected" <? } ?>>Ohio</option>
+      <option value="Oklahoma" <? if($sql_values_fetch['fldPrivateAddressState'] == "Oklahoma") {?> selected="selected" <? } ?>>Oklahoma</option>
+      <option value="Oregon" <? if($sql_values_fetch['fldPrivateAddressState'] == "Oregon") {?> selected="selected" <? } ?>>Oregon</option>
+      <option value="Pennsylvania" <? if($sql_values_fetch['fldPrivateAddressState'] == "Pennsylvania") {?> selected="selected" <? } ?>>Pennsylvania</option>
+      <option value="Puerto Rico" <? if($sql_values_fetch['fldPrivateAddressState'] == "Puerto Rico") {?> selected="selected" <? } ?>>Puerto Rico</option>
+      <option value="Rhode Island" <? if($sql_values_fetch['fldPrivateAddressState'] == "Rhode Island") {?> selected="selected" <? } ?>>Rhode Island</option>
+      <option value="South Carolina" <? if($sql_values_fetch['fldPrivateAddressState'] == "South Carolina") {?> selected="selected" <? } ?>>South Carolina</option>
+      <option value="South Dakota" <? if($sql_values_fetch['fldPrivateAddressState'] == "South Dakota") {?> selected="selected" <? } ?>>South Dakota</option>
+      <option value="Tennessee" <? if($sql_values_fetch['fldPrivateAddressState'] == "Tennessee") {?> selected="selected" <? } ?>>Tennessee</option>
+      <option value="Texas" <? if($sql_values_fetch['fldPrivateAddressState'] == "Texas") {?> selected="selected" <? } ?>>Texas</option>
+      <option value="Utah" <? if($sql_values_fetch['fldPrivateAddressState'] == "Utah") {?> selected="selected" <? } ?>>Utah</option>
+      <option value="Virginia" <? if($sql_values_fetch['fldPrivateAddressState'] == "Virginia") {?> selected="selected" <? } ?>>Virginia</option>
+      <option value="Vermont" <? if($sql_values_fetch['fldPrivateAddressState'] == "Vermont") {?> selected="selected" <? } ?>>Vermont</option>
+      <option value="Washington" <? if($sql_values_fetch['fldPrivateAddressState'] == "Washington") {?> selected="selected" <? } ?>>Washington</option>
+      <option value="Wisconsin" <? if($sql_values_fetch['fldPrivateAddressState'] == "Wisconsin") {?> selected="selected" <? } ?>>Wisconsin</option>
+      <option value="West Virginia" <? if($sql_values_fetch['fldPrivateAddressState'] == "West Virginia") {?> selected="selected" <? } ?>>West Virginia</option>
+      <option value="Wyoming" <? if($sql_values_fetch['fldPrivateAddressState'] == "Wyoming") {?> selected="selected" <? } ?>>Wyoming</option>
+	  </select></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td><span class="lab">Zip</span></td>
+            <td><input name="privatezipcode" type="text" class="myinput1" value="<?=$sql_values_fetch['fldPrivateAddressZip']?>" /></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td><span class="lab">Phone #</span></td>
+            <td><input name="privatephone" type="text" class="myinput1" value="<?=$sql_values_fetch['fldPrivatePhoneNumber']?>" /></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td>This Patient would find it physically and/or psychologically taxing because of advanced age and/or physical limitations to receive an X-ray or EKG outside this location. This test is medically necessary for the diagnosis and treatment of this patient.</td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td><div align="center">
+              <input type="submit" name="submit" value="Add" />
+            </div></td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+
+    </table></td>
+  </tr>
+</table>
+</form>
+
+<?php
+
+//if($_REQUEST['retrive']!='')
+//{
+//$patid=$_REQUEST['patientid'];
+//$redirecturl = "index.php?pg=21&pid=$patid";
+//header("location:".$redirecturl);
+//}
+
+if($_REQUEST['new']!='')
+{
+
+$sql = "SELECT max(fldPatientID) as maxid from tblorderdetails where 1";
+$result = mysql_query($sql) or die (mysql_error());
+while($row = mysql_fetch_array($result))
+{
+$newptid=$row[maxid];
+if($newptid < 25001)
+{
+$newptid=25000;
+}
+$newptid = $newptid + 1;
+}
+
+$redirecturl = "index.php?pg=21&pid=$newptid&newpt=1";
+header("location:".$redirecturl);
+}
+
+if($_REQUEST['submit']!='')
+{
+$dob = $_REQUEST['dob'];
+$sDate = split('-', $dob);
+$newdob = $sDate[2].'-'.$sDate[0].'-'.$sDate[1];
+
+$cretime=date("Y-m-d",time());
+
+$sDate1 = $_REQUEST['schdate12'];
+$sDate2 = split('-', $sDate1);
+$schdate = $sDate2[2].'-'.$sDate2[0].'-'.$sDate2[1];
+$schdate .=" " . $_REQUEST['schdate22'];
+
+$sDate1 = $_REQUEST['schdate1'];
+$sDate2 = split('-', $sDate1);
+$orddate = $sDate[2].'-'.$sDate[0].'-'.$sDate[1];
+$orddate .=" " . $_REQUEST['schdate2'];
+
+$ordphy=$_REQUEST['orderingphysicians'];
+if($ordphy == "new")
+{
+$ordphy=$_REQUEST['phynew'];
+}
+
+$sql_insert = mysql_query("insert into tblorderdetails set
+fldPatientID='".strtoupper(strip_tags(addslashes($_REQUEST['patientid'])))."',
+fldSchDate='".strtoupper(strip_tags(addslashes($schdate)))."',
+fldPatientSSN='".strtoupper(strip_tags(addslashes($_REQUEST['patientssn'])))."',
+fldFirstName='".strtoupper(strip_tags(addslashes($_REQUEST['firstname'])))."',
+fldLastName='".strtoupper(strip_tags(addslashes($_REQUEST['lastname'])))."',
+fldMiddleName='".strtoupper(strip_tags(addslashes($_REQUEST['middlename'])))."',
+fldSurName='".strtoupper(strip_tags(addslashes($_REQUEST['surname'])))."',
+fldDOB='".strtoupper(strip_tags(addslashes($newdob)))."',
+fldGender='".(strip_tags(addslashes($_REQUEST['sex'])))."',
+fldInsurance='".(strip_tags(addslashes($_REQUEST['insurance'])))."',
+fldMedicareNumber='".strtoupper(strip_tags(addslashes($_REQUEST['medicare'])))."',
+fldMedicaidNumber='".strtoupper(strip_tags(addslashes($_REQUEST['medicaid'])))."',
+fldState='".(strip_tags(addslashes($_REQUEST['state'])))."',
+fldInsuranceCompanyName='".strtoupper(strip_tags(addslashes($_REQUEST['insurancecompanyname'])))."',
+fldHmoContract='".strtoupper(strip_tags(addslashes($_REQUEST['hmo_contract'])))."',
+fldPolicy='".strtoupper(strip_tags(addslashes($_REQUEST['policy'])))."',
+fldGroup='".strtoupper(strip_tags(addslashes($_REQUEST['group'])))."',
+fldResponsiblePerson='".strtoupper(strip_tags(addslashes($_REQUEST['responsibleperson'])))."',
+fldRelationship='".(strip_tags(addslashes($_REQUEST['relationship'])))."',
+fldFacilityName='".(strip_tags(addslashes($_REQUEST['facility'])))."',
+fldFacPhone='".(strip_tags(addslashes($_REQUEST['faccontact'])))."',
+fldPrivateAddressLine1='".strtoupper(strip_tags(addslashes($_REQUEST['privatestreetaddress1'])))."',
+fldPrivateAddressLine2='".strtoupper(strip_tags(addslashes($_REQUEST['privatestreetaddress2'])))."',
+fldPrivateAddressCity='".strtoupper(strip_tags(addslashes($_REQUEST['privatecity'])))."',
+fldPrivateAddressState='".(strip_tags(addslashes($_REQUEST['privatestate'])))."',
+fldPrivateAddressZip='".strtoupper(strip_tags(addslashes($_REQUEST['privatezipcode'])))."',
+fldPrivatePhoneNumber='".strtoupper(strip_tags(addslashes($_REQUEST['privatephone'])))."',
+fldHomeAddressLine1='".strtoupper(strip_tags(addslashes($_REQUEST['homestreetaddress1'])))."',
+fldHomeAddressLine2='".strtoupper(strip_tags(addslashes($_REQUEST['homestreetaddress2'])))."',
+fldHomeAddressCity='".strtoupper(strip_tags(addslashes($_REQUEST['homecity'])))."',
+fldHomeAddressState='".(strip_tags(addslashes($_REQUEST['homestate'])))."',
+fldHomeAddressZip='".strtoupper(strip_tags(addslashes($_REQUEST['homezipcode'])))."',
+fldHomePhoneNumber='".strtoupper(strip_tags(addslashes($_REQUEST['homephone'])))."',
+fldStat='".strtoupper(strip_tags(addslashes($_REQUEST['stat'])))."',
+fldOrderingPhysicians='".(strip_tags(addslashes($ordphy)))."',
+fldRequestedBy='".strtoupper(strip_tags(addslashes($_REQUEST['requester'])))."',
+fldProcedure1='".(strip_tags(addslashes($_REQUEST['procedure1'])))."',
+fldProcedure2='".(strip_tags(addslashes($_REQUEST['procedure2'])))."',
+fldProcedure3='".(strip_tags(addslashes($_REQUEST['procedure3'])))."',
+fldProcedure4='".(strip_tags(addslashes($_REQUEST['procedure4'])))."',
+fldProcedure5='".(strip_tags(addslashes($_REQUEST['procedure5'])))."',
+fldProcedure6='".(strip_tags(addslashes($_REQUEST['procedure6'])))."',
+fldplr1='".(strip_tags(addslashes($_REQUEST['plr1'])))."',
+fldplr2='".(strip_tags(addslashes($_REQUEST['plr2'])))."',
+fldplr3='".(strip_tags(addslashes($_REQUEST['plr3'])))."',
+fldplr4='".(strip_tags(addslashes($_REQUEST['plr4'])))."',
+fldplr5='".(strip_tags(addslashes($_REQUEST['plr5'])))."',
+fldplr6='".(strip_tags(addslashes($_REQUEST['plr6'])))."',
+fldSymptom1='".(strip_tags(addslashes($_REQUEST['symptoms1'])))."',
+fldSymptom2='".(strip_tags(addslashes($_REQUEST['symptoms2'])))."',
+fldSymptom3='".(strip_tags(addslashes($_REQUEST['symptoms3'])))."',
+fldSymptom4='".(strip_tags(addslashes($_REQUEST['symptoms4'])))."',
+fldSymptom5='".(strip_tags(addslashes($_REQUEST['symptoms5'])))."',
+fldSymptom6='".(strip_tags(addslashes($_REQUEST['symptoms6'])))."',
+fldPatientroom='".strtoupper(strip_tags(addslashes($_REQUEST['patientroom'])))."',
+fldAfterhours='".strtoupper(strip_tags(addslashes($_REQUEST['afterhours'])))."',
+fldHistory='".strtoupper(strip_tags(addslashes($_REQUEST['history'])))."',
+fldCDRequested='".(strip_tags(addslashes($_REQUEST['cdrequested'])))."',
+fldSymptoms='".strtoupper(strip_tags(addslashes($_REQUEST['symptoms'])))."',
+fldCDAddr='".strtoupper(strip_tags(addslashes($_REQUEST['cdaddr'])))."',
+fldUserName='".strtoupper(strip_tags(addslashes($_SESSION['user'])))."',
+fldDate='".strtoupper(strip_tags(addslashes($time)))."',
+fldCreDate='".strtoupper(strip_tags(addslashes($cretime)))."'
+") or die (mysql_error());
+$id =	mysql_insert_id();
+$txtid = $id;
+
+if($sql_insert)
+{
+
+$sql_insert_icd	= mysql_query("insert into tblicdcodes set
+fldOrderid='".(strip_tags(addslashes($id)))."'
+") or die (mysql_error());
+
+$id =   $txtid;
+require('fpdf/html_table.php');
+
+$sql_values_fetch = mysql_fetch_array(mysql_query("select * from tblorderdetails where fldID='$id'"));
+$orddate=$sql_values_fetch['fldDate'];
+$time=date("Y-m-d H:i",time());
+function formatDate21($dDate){
+$dNewDate = strtotime($dDate);
+return date('d-m-Y',$dNewDate);
+}
+function formatDate22($dDate){
+$dNewDate = strtotime($dDate);
+return date('H:i',$dNewDate);
+}
+$time11=formatdate21($orddate);
+$time12=formatdate22($orddate);
+$rperson=$sql_values_fetch['fldResponsiblePerson'];
+$facility = $sql_values_fetch['fldFacilityName'];
+$phone=$sql_values_fetch['fldPhone'];
+$fname = $sql_values_fetch['fldFirstName'];
+$lname = $sql_values_fetch['fldLastName'];
+$mname=$sql_values_fetch['fldMiddleName'];
+$sname=$sql_values_fetch['fldSurName'];
+$patientid=$sql_values_fetch['fldPatientID'];
+$dob=$sql_values_fetch['fldDOB'];
+$ssn=$sql_values_fetch['fldPatientSSN'];
+$gender=$sql_values_fetch['fldGender'];
+$room=$sql_values_fetch['fldPatientroom'];
+$urgent="No";
+if($sql_values_fetch['fldStat']==1)
+{
+$urgent="Yes";
+}
+$afterhours="No";
+if($sql_values_fetch['fldAfterhours']==1)
+{
+$afterhours="Yes";
+}
+$symptom1=$sql_values_fetch['fldSymptom1'];
+$symptom2=$sql_values_fetch['fldSymptom2'];
+$symptom3=$sql_values_fetch['fldSymptom3'];
+$symptom4=$sql_values_fetch['fldSymptom4'];
+$symptom5=$sql_values_fetch['fldSymptom5'];
+$symptom6=$sql_values_fetch['fldSymptom6'];
+$plr1=$sql_values_fetch['fldplr1'];
+$plr2=$sql_values_fetch['fldplr2'];
+$plr3=$sql_values_fetch['fldplr3'];
+$plr4=$sql_values_fetch['fldplr4'];
+$plr5=$sql_values_fetch['fldplr5'];
+$plr6=$sql_values_fetch['fldplr6'];
+$additionalinfo=$sql_values_fetch['fldSymptoms'];
+$history=$sql_values_fetch['fldHistory'];
+$physician=$sql_values_fetch['fldOrderingPhysicians'];
+function formatDate31($dDate){
+$dNewDate = strtotime($dDate);
+return date('d-m-Y',$dNewDate);
+}
+function formatDate32($dDate){
+$dNewDate = strtotime($dDate);
+return date('H:i',$dNewDate);
+}
+$schdte=$sql_values_fetch['fldDate'];
+$shdate=formatdate31($schdte);
+$shtime=formatdate32($schdte);
+$cdneeded="No";
+if($sql_values_fetch['fldCDRequested']==1)
+{
+$cdneeded="Yes";
+}
+$cdaddr=$sql_values_fetch['fldCDAddr'];
+$medicare=$sql_values_fetch['fldMedicareNumber'];
+$medicaid=$sql_values_fetch['fldMedicaidNumber'];
+$state=$sql_values_fetch['fldState'];
+$inscompany=$sql_values_fetch['fldInsuranceCompanyName'];
+$relation=$sql_values_fetch['fldRelationship'];
+$addr1=$sql_values_fetch['fldPrivateAddressLine1'];
+$addr2=$sql_values_fetch['fldPrivateAddressLine2'];
+$addrcity=$sql_values_fetch['fldPrivateAddressCity'];
+$addrstate=$sql_values_fetch['fldPrivateAddressState'];
+$addrzip=$sql_values_fetch['fldPrivateAddressZip'];
+$addrphone=$sql_values_fetch['fldPrivateAddressPhone'];
+$hmo_contract=$sql_values_fetch['fldHmoContract'];
+$policy=$sql_values_fetch['fldPolicy'];
+$group=$sql_values_fetch['fldGroup'];
+$verbalrep=$sql_values_fetch['fldReportDetails'];
+$repdate=$sql_values_fetch['fldDate'];
+$rpdate=formatdate11($repdate);
+$rptime=formatdate12($repdate);
+$repcalledto=$sql_values_fetch['fldReportCalledTo'];
+$radiologist=$sql_values_fetch['fldRadiologist'];
+$noofpatients=$sql_values_fetch['fldVerbalnoofpat'];
+
+$proc=$sql_values_fetch['fldProcedure1'];
+$sql_values_fetch_proc =    mysql_fetch_array(mysql_query("select * from tblproceduremanagment where fldDescription='$proc'"));
+$cbt1=$sql_values_fetch_proc['fldCBTCode'];
+$pdesc1=$sql_values_fetch_proc['fldDescription'];
+$proc=$sql_values_fetch['fldProcedure2'];
+$sql_values_fetch_proc =    mysql_fetch_array(mysql_query("select * from tblproceduremanagment where fldDescription='$proc'"));
+$cbt2=$sql_values_fetch_proc['fldCBTCode'];
+$pdesc2=$sql_values_fetch_proc['fldDescription'];
+$proc=$sql_values_fetch['fldProcedure3'];
+$sql_values_fetch_proc =    mysql_fetch_array(mysql_query("select * from tblproceduremanagment where fldDescription='$proc'"));
+$cbt3=$sql_values_fetch_proc['fldCBTCode'];
+$pdesc3=$sql_values_fetch_proc['fldDescription'];
+$proc=$sql_values_fetch['fldProcedure4'];
+$sql_values_fetch_proc =    mysql_fetch_array(mysql_query("select * from tblproceduremanagment where fldDescription='$proc'"));
+$cbt4=$sql_values_fetch_proc['fldCBTCode'];
+$pdesc4=$sql_values_fetch_proc['fldDescription'];
+$proc=$sql_values_fetch['fldProcedure5'];
+$sql_values_fetch_proc =    mysql_fetch_array(mysql_query("select * from tblproceduremanagment where fldDescription='$proc'"));
+$cbt5=$sql_values_fetch_proc['fldCBTCode'];
+$pdesc5=$sql_values_fetch_proc['fldDescription'];
+$proc=$sql_values_fetch['fldProcedure6'];
+$sql_values_fetch_proc =    mysql_fetch_array(mysql_query("select * from tblproceduremanagment where fldDescription='$proc'"));
+$cbt6=$sql_values_fetch_proc['fldCBTCode'];
+$pdesc6=$sql_values_fetch_proc['fldDescription'];
+
+if(!$time11) $time11='&nbsp;';
+if(!$time12) $time12='&nbsp;';
+if(!$rperson) $rperson='&nbsp;';
+if(!$facility ) $facility ='&nbsp;';
+if(!$phone) $phone='&nbsp;';
+if(!$fname ) $fname ='&nbsp;';
+if(!$lname ) $lname ='&nbsp;';
+if(!$mname) $mname='&nbsp;';
+if(!$sname) $sname='&nbsp;';
+if(!$patientid) $patientid='&nbsp;';
+if(!$dob) $dob='&nbsp;';
+if(!$ssn) $ssn='&nbsp;';
+if(!$gender) $gender='&nbsp;';
+if(!$room) $room='&nbsp;';
+if(!$urgent) $urgent='&nbsp;';
+if(!$afterhours) $afterhours='&nbsp;';
+if(!$symptom1) $symptom1='&nbsp;';
+if(!$symptom2) $symptom2='&nbsp;';
+if(!$symptom3) $symptom3='&nbsp;';
+if(!$symptom4) $symptom4='&nbsp;';
+if(!$symptom5) $symptom5='&nbsp;';
+if(!$symptom6) $symptom6='&nbsp;';
+if(!$plr1) $plr1='&nbsp;';
+if(!$plr2) $plr2='&nbsp;';
+if(!$plr3) $plr3='&nbsp;';
+if(!$plr4) $plr4='&nbsp;';
+if(!$plr5) $plr5='&nbsp;';
+if(!$plr6) $plr6='&nbsp;';
+if(!$additionalinfo) $additionalinfo='&nbsp;';
+if(!$history) $history='&nbsp;';
+if(!$physician) $physician='&nbsp;';
+if(!$shdate) $shdate='&nbsp;';
+if(!$shtime) $shtime='&nbsp;';
+if(!$cdneeded) $cdneeded='&nbsp;';
+if(!$cdaddr) $cdaddr='&nbsp;';
+if(!$medicare) $medicare='&nbsp;';
+if(!$medicaid) $medicaid='&nbsp;';
+if(!$state) $state='&nbsp;';
+if(!$inscompany) $inscompany='&nbsp;';
+if(!$relation) $relation='&nbsp;';
+if(!$addr1) $addr1='&nbsp;';
+if(!$addr2) $addr2='&nbsp;';
+if(!$addrcity) $addrcity='&nbsp;';
+if(!$addrstate) $addrstate='&nbsp;';
+if(!$addrzip) $addrzip='&nbsp;';
+if(!$addrphone) $addrphone='&nbsp;';
+if(!$hmo_contract) $hmo_contract='&nbsp;';
+if(!$policy) $policy='&nbsp;';
+if(!$group) $group='&nbsp;';
+if(!$verbalrep) $verbalrep='&nbsp;';
+if(!$repdate) $repdate='&nbsp;';
+if(!$rpdate) $rpdate='&nbsp;';
+if(!$rptime) $rptime='&nbsp;';
+if(!$repcalledto) $repcalledto='&nbsp;';
+if(!$radiologist) $radiologist='&nbsp;';
+if(!$noofpatients) $noofpatients='&nbsp;';
+if(!$cbt1) $cbt1='&nbsp;';
+if(!$pdesc1) $pdesc1='&nbsp;';
+if(!$cbt2) $cbt2='&nbsp;';
+if(!$pdesc2) $pdesc2='&nbsp;';
+if(!$cbt3) $cbt3='&nbsp;';
+if(!$pdesc3) $pdesc3='&nbsp;';
+if(!$cbt4) $cbt4='&nbsp;';
+if(!$pdesc4) $pdesc4='&nbsp;';
+if(!$cbt5) $cbt5='&nbsp;';
+if(!$pdesc5) $pdesc5='&nbsp;';
+if(!$cbt6) $cbt6='&nbsp;';
+if(!$pdesc6) $pdesc6='&nbsp;';
+
+$pdf=new PDF();
+$pdf->AddPage();
+
+$html='<table border="0">
+<tr>
+<td width="50" height="30">Date :</td>
+<td width="100" height="30">';
+$html.=$time11;
+$html.='</td>
+<td width="50" height="30">Time :</td>
+<td width="100" height="30">';
+$html.=$time12;
+$html.='</td>
+</tr>
+<tr>
+<td height="10"></td>
+</tr>
+<tr>
+<td width="60" height="30">Contact</td>
+<td width="120" height="30">';
+$html.=$rperson;
+$html.='</td>
+<td width="110" height="30">Facility Name </td>
+<td width="120" height="30">';
+$html.=$facility;
+$html.='</td>
+<td width="50" height="30">Phone </td>
+<td width="90" height="30">';
+$html.=$phone;
+$html.='</td>
+</tr>
+<tr>
+<td width="140" height="30">Patient Name: First </td>
+<td width="110" height="30">';
+$html.=$fname;
+$html.='</td>
+<td width="60" height="30">Middle </td>
+<td width="100" height="30">';
+$html.=$mname;
+$html.='</td>
+<td width="60" height="30">Last </td>
+<td width="100" height="30">';
+$html.=$lname;
+$html.='</td>
+</tr>
+<tr>
+<td width="90" height="30">Patient MR# </td>
+<td width="120" height="30">';
+$html.=$patientid;
+$html.='</td>
+<td width="40" height="30">DOB </td>
+<td width="100" height="30">';
+$html.=$dob;
+$html.='</td>
+<td width="40" height="30">SSN </td>
+<td width="100" height="30">';
+$html.=$ssn;
+$html.='</td>
+<td width="40" height="30">Sex </td>
+<td width="50" height="30">';
+$html.=$gender;
+$html.='</td>
+</tr>
+<tr>
+<td width="60" height="30">Room# </td>
+<td width="100" height="30">';
+$html.=$room;
+$html.='</td>
+<td width="60" height="30">Urgent? </td>
+<td width="60" height="30">';
+$html.=$urgent;
+$html.='</td>
+<td width="90" height="30">After hours? </td>
+<td width="60" height="30">';
+$html.=$afterhours;
+$html.='</td>
+</tr>
+<tr>
+</tr>
+<tr>
+<td width="90" height="30">Procedure1# </td>
+<td width="160" height="30">';
+$html.=$pdesc1;
+$html.='<td width="90" height="30">';
+$html.=$plr1;
+$html.='</td>
+<td width="90" height="30">Symptoms: </td>
+<td width="120" height="30">';
+$html.=$symptom1;
+$html.='</td>
+</tr>
+<td width="90" height="30">Procedure2# </td>
+<td width="160" height="30">';
+$html.=$pdesc2;
+$html.='<td width="90" height="30">';
+$html.=$plr2;
+$html.='</td>
+<td width="90" height="30">Symptoms: </td>
+<td width="120" height="30">';
+$html.=$symptom2;
+$html.='</td>
+</tr>
+<td width="90" height="30">Procedure3# </td>
+<td width="160" height="30">';
+$html.=$pdesc3;
+$html.='<td width="90" height="30">';
+$html.=$plr3;
+$html.='</td>
+<td width="90" height="30">Symptoms: </td>
+<td width="120" height="30">';
+$html.=$symptom3;
+$html.='</td>
+</tr>
+<td width="90" height="30">Procedure4# </td>
+<td width="160" height="30">';
+$html.=$pdesc4;
+$html.='<td width="90" height="30">';
+$html.=$plr4;
+$html.='</td>
+<td width="90" height="30">Symptoms: </td>
+<td width="120" height="30">';
+$html.=$symptom4;
+$html.='</td>
+</tr>
+<td width="90" height="30">Procedure5# </td>
+<td width="160" height="30">';
+$html.=$pdesc5;
+$html.='<td width="90" height="30">';
+$html.=$plr5;
+$html.='</td>
+<td width="90" height="30">Symptoms: </td>
+<td width="120" height="30">';
+$html.=$symptom5;
+$html.='</td>
+</tr>
+<td width="90" height="30">Procedure6# </td>
+<td width="160" height="30">';
+$html.=$pdesc6;
+$html.='<td width="90" height="30">';
+$html.=$plr6;
+$html.='</td>
+<td width="90" height="30">Symptoms: </td>
+<td width="120" height="30">';
+$html.=$symptom6;
+$html.='</td>
+</tr>
+<tr>
+</tr>
+<tr>
+<td width="150" height="30">Additional Patient Info:</td>';
+$html.='</td>
+</tr>
+<tr>
+<td width="150" height="30">';
+$html.=$additionalinfo;
+$html.='</td>
+</tr>
+<tr>
+<td width="150" height="30">History</td>';
+$html.='</td>
+</tr>
+<tr>
+<td width="150" height="30">';
+$html.=$history;
+$html.='</td>
+</tr>
+<tr>
+</tr>
+<tr>
+<td width="90" height="30">Ordering Dr. </td>
+<td width="100" height="30">';
+$html.=$physician;
+$html.='</td>
+<td width="140" height="30">Date Exam needed: </td>
+<td width="90" height="30">';
+$html.=$shdate;
+$html.='</td>
+<td width="140" height="30">Time exam needed: </td>
+<td width="60" height="30">';
+$html.=$shtime;
+$html.='</td>
+</tr>
+<tr>
+<td width="90" height="30">CD Needed ? </td>
+<td width="40" height="30">';
+$html.=$cdneeded;
+$html.='</td>
+<td width="90" height="30">Location </td>
+<td width="200" height="30">';
+$html.=$cdaddr;
+$html.='</td></tr>
+<tr>
+<td width="90" height="30">Medicare </td>
+<td width="220" height="30">';
+$html.=$medicare;
+$html.='</td>
+<td width="140" height="30">Responsible Party </td>
+</tr>
+<tr>
+<td width="90" height="30">Medicaid </td>
+<td width="120" height="30">';
+$html.=$medicaid;
+$html.='</td>
+<td width="30" height="30">ST </td>
+<td width="70" height="30">';
+$html.=$state;
+$html.='</td>
+<td width="140" height="30">Name </td>
+<td width="120" height="30">';
+$html.=$rperson;
+$html.='</td>
+</tr>
+<tr>
+<td width="310" height="30">&nbsp;</td>
+<td width="140" height="30">Relationship </td>
+<td width="120" height="30">';
+$html.=$relation;
+$html.='</td>
+</tr>
+<tr>
+<td width="110" height="30">Supplementry Ins </td>
+<td width="200" height="30">';
+$html.=$inscompany;
+$html.='</td>
+<td width="140" height="30">Address </td>
+<td width="120" height="30">';
+$html.=$addr1;
+$html.='</td>
+</tr>
+<tr>
+<td width="110" height="30">Policy# </td>
+<td width="200" height="30">';
+$html.=$policy;
+$html.='</td>
+<td width="140" height="30">&nbsp;</td>
+<td width="120" height="30">';
+$html.=$addr2;
+$html.='</td>
+</tr>
+<tr>
+<td width="110" height="30">Group# </td>
+<td width="200" height="30">';
+$html.=$group;
+$html.='</td>
+<td width="140" height="30">&nbsp;</td>
+<td width="120" height="30">';
+$html.=$addrcity;
+$html.='</td>
+</tr>
+<tr>
+<td width="110" height="30">HMO </td>
+<td width="200" height="30">';
+$html.=$hmo_contract;
+$html.='</td>
+<td width="140" height="30">&nbsp;</td>
+<td width="120" height="30">';
+$html.=$addrstate . "," . $addrzip;
+$html.='</td>
+</tr>
+<tr>
+<td width="310" height="30">&nbsp;</td>
+<td width="140" height="30">Phone </td>
+<td width="120" height="30">';
+$html.=$addrphone;
+$html.='</td>
+</tr>
+<tr>
+</tr>
+<tr>
+<td width="560" height="30">I request that payment of authorized Medicare and/or Medigap benefits be made either to me or </td>
+</tr>
+<tr>
+<td width="560" height="30">on my behalf to Mobile Medical Services and/or the interpreting physician for any services </td>
+</tr>
+<tr>
+<td width="560" height="30">furnished my by that physician or supplier. I authorize any holder of medical information about </td>
+</tr>
+<tr>
+<td width="560" height="30">me to release to the center for Medicare and Medicaid services and its agents any information </td>
+</tr>
+<tr>
+<td width="560" height="30">needed to determine these benefits payable for related services.</td>
+</tr>
+<tr>
+</tr>
+<tr>
+<td width="300" height="30">Patient Signature</td>
+<td width="220" height="30">Nurse’s Signature (if patient unable to sign)</td>
+</tr>
+<tr>
+<td width="150" height="30">Verbal Report</td>';
+$html.='</td>
+</tr>
+<tr>
+<td width="150" height="30">';
+$html.=$verbalrep;
+$html.='</td>
+</tr>
+<tr>
+</tr>
+<tr>
+<td width="110" height="30">Time Called in: </td>
+<td width="110" height="30">';
+$html.=$rpdate . " " . $rptime;
+$html.='</td>
+<td width="110" height="30">Report Called to: </td>
+<td width="110" height="30">';
+$html.=$repcalledto;
+$html.='</td>
+<td width="110" height="30">Reading Radiologist: </td>
+<td width="110" height="30">';
+$html.=$radiologist;
+$html.='</td>
+</tr>
+<tr>
+<td width="310" height="30">No of Patients this Trip #</td>
+<td width="200" height="30">';
+$html.=$noofpatients;
+$html.='</td>
+</tr>
+</table>';
+$pdf->Ln(10);
+$pdf->SetFont('Arial','B',15);
+$pdf->Cell(80,10,'Mobile Medical Services, Inc.   ',0,0,'C');
+$pdf->SetFont('Arial','B',11);
+$pdf->Cell(90,10,'Phone 816-232-02727  Toll Free 800-271-1801',0,0,'C');
+$pdf->Ln(10);
+$pdf->SetFont('Arial','B',9);
+$pdf->WriteHTML($html);
+
+if($sql_values_fetch['fldAuthorized'] == 1)
+{
+//    $pdf->Cell(105);
+//    $pdf->SetFont('Arial','U',10);
+//    $pdf->Cell(30,10,'"Electronically Signed"',0,0,'C');
+//    $pdf->Ln(5);
+//    $pdf->Cell(105);
+//    $pdf->SetFont('Arial','I',10);
+//    $pdf->Cell(30,10,$physician,0,0,'C');
+}
+
+$sql_values_fetch = mysql_fetch_array(mysql_query("select * from tblsettings"));
+$dest=$sql_values_fetch['fldPDFUnsignedOrders'];
+$filename = $dest . "u" . $cretime . $lname . $fname . "_" . $id . ".pdf";
+$pdf->Output($filename,'F');
+
+//////////////////////////
+// Read POST request params into global vars
+$to1=$sql_values_fetch['fldEmailSendOrders1'];
+$to2=$sql_values_fetch['fldEmailSendOrders2'];
+
+$from = "Douglas <dpotter@mdipacs.net>";
+$to=$to1 . ";" . $to2;
+$subject = "MDI Imaging & Reffering Physician - Order";
+$headers = array ('From' => $from,'To' => $to, 'Subject' => $subject);
+$text = "Hi,\r\n\r\nPlease find the attached receipt for Order Placed at MDF Imaging & Referring Physician\r\n\r\nRegards\r\nMDF Imaging & Referring Physician";
+$file = $filename; // attachment
+$crlf = "\n";
+//  $mime = new Mail_mime($crlf);
+//  $mime->setTXTBody($text);
+//  $mime->addAttachment($file, 'text/plain');
+//  $body = $mime->get();
+//  $headers = $mime->headers($headers);
+//  $smtp = Mail::factory('smtp', array ('host' => $host, 'auth' => false, 'username' => $username,'password' => $password));
+//  $mail = $smtp->send($to, $headers, $body);
+
+//email to facility
+$fac = $_REQUEST['facility'];
+$sql_values_fetch = mysql_fetch_array(mysql_query("select * from tblfacility where fldFacilityName = '$fac'"));
+if($sql_values_fetch['fldEmailOrder'] == 1)
+{
+$to = $sql_values_fetch['fldEmail'];
+$mail = $smtp->send($to, $headers, $body);
+}
+
+
+$sql_values_fetch = mysql_fetch_array(mysql_query("select * from tblsettings"));
+$txtdest=$sql_values_fetch['flddmwl'];
+
+$stringData0 = "[RecordNum1] \n";
+$stringData0 .= "Patient Name = " . $_REQUEST['lastname'] . "\t^" . $_REQUEST['firstname'] . "\n";
+$stringData0 .= "Patient ID = " . $_REQUEST['patientid'] . "\n";
+
+$stringData0 .= "Date of Birth = " . $newdob . "\n";
+$stringData0 .= "Additional Patient History = " . $_REQUEST['history'] . "\n";
+$stemp = $_REQUEST['sex'];
+if ($stemp == 'male')
+{
+$txtsex = 'M';
+}
+if ($stemp == 'female')
+{
+$txtsex = 'F';
+}
+$stringData0 .= "Sex = " . $txtsex. "\n";
+function formatDatez($dDate){
+$dNewDate = strtotime($dDate);
+return date('Ymd-His',$dNewDate);
+}
+
+$stringData1 = "Referring Physician = " . $ordphy . "\n";
+$stringData1 .= "Scheduled AE Station = crvan \n";
+
+function formatschstdate($dDate){
+$dNewDate = strtotime($dDate);
+return date('Y-m-d',$dNewDate);
+}
+function formatschsttime($dDate){
+$dNewDate = strtotime($dDate);
+return date('H:i',$dNewDate);
+}
+$schdate=formatschstdate($time);
+$schtime=formatschsttime($time);
+$stringData2 = "Scheduled Start Date = " . $schdate . "\n";
+$stringData2 .= "Scheduled Start Time = " . $schtime . "\n";
+
+$pr1 = $_REQUEST['procedure1'];
+if($pr1)
+{
+$myFile = $txtdest . $txtid . "p1.txt";
+$fh = fopen($myFile, 'w') or die("can't open file");
+$sql_values_fetch_mod = mysql_fetch_array(mysql_query("select * from tblproceduremanagment where fldDescription='$pr1'"));
+$atime=date("Y-m-d H:i:s",time() + 1);
+$acsno = formatDatez($atime);
+
+$sql_Update	= mysql_query("update tblorderdetails set
+fldacsno1='".strtoupper(strip_tags(addslashes($acsno)))."'
+where fldID='".$id."'") or die (mysql_error());
+
+$stringData = $stringData0 . "Accession Number  = " . $acsno . "\n" . "Admitting Diagnoses Discription  = " . $_REQUEST['symptoms1'] . "\n" . $stringData1 . "Modality = " . $sql_values_fetch_mod['fldModality'] . "\n";
+$stringData .= $stringData2 . "Requested Procedure ID =  " . $sql_values_fetch_mod['fldCBTCode'] . "\n"  . "Requested Procedure Description = " . $_REQUEST['plr1'] . " " . $_REQUEST['procedure1'] . "\n";
+fwrite($fh, $stringData);
+fclose($fh);
+}
+
+$pr2 = $_REQUEST['procedure2'];
+if($pr2)
+{
+$myFile = $txtdest . $txtid . "p2.txt";
+$fh = fopen($myFile, 'w') or die("can't open file");
+$sql_values_fetch_mod = mysql_fetch_array(mysql_query("select * from tblproceduremanagment where fldDescription='$pr2'"));
+$atime=date("Y-m-d H:i:s",time() + 2);
+$acsno = formatDatez($atime);
+
+$sql_Update	= mysql_query("update tblorderdetails set
+fldacsno2='".strtoupper(strip_tags(addslashes($acsno)))."'
+where fldID='".$id."'") or die (mysql_error());
+
+$stringData = $stringData0 . "Accession Number  = " . $acsno . "\n" . "Admitting Diagnoses Discription  = " .$_REQUEST['symptoms2'] . "\n" . $stringData1 . "Modality = " . $sql_values_fetch_mod['fldModality'] . "\n" ;
+$stringData .= $stringData2 . "Requested Procedure ID =  " . $sql_values_fetch_mod['fldCBTCode'] . "\n"  . "Requested Procedure Description = " . $_REQUEST['plr2'] . " " . $_REQUEST['procedure2'] . "\n";
+fwrite($fh, $stringData);
+fclose($fh);
+}
+
+$pr3 = $_REQUEST['procedure3'];
+if($pr3)
+{
+$myFile = $txtdest . $txtid . "p3.txt";
+$fh = fopen($myFile, 'w') or die("can't open file");
+$sql_values_fetch_mod = mysql_fetch_array(mysql_query("select * from tblproceduremanagment where fldDescription='$pr3'"));
+$atime=date("Y-m-d H:i:s",time() + 3);
+$acsno = formatDatez($atime);
+
+$sql_Update	= mysql_query("update tblorderdetails set
+fldacsno3='".strtoupper(strip_tags(addslashes($acsno)))."'
+where fldID='".$id."'") or die (mysql_error());
+
+$stringData = $stringData0 . "Accession Number  = " . $acsno . "\n" . "Admitting Diagnoses Discription  = " .$_REQUEST['symptoms3'] . "\n" .  $stringData1 . "Modality = " . $sql_values_fetch_mod['fldModality'] . "\n" ;
+$stringData .= $stringData2 . "Requested Procedure ID =  " . $sql_values_fetch_mod['fldCBTCode'] . "\n"  . "Requested Procedure Description = " . $_REQUEST['plr3'] . " " . $_REQUEST['procedure3'] . "\n";
+fwrite($fh, $stringData);
+fclose($fh);
+}
+
+$pr4 = $_REQUEST['procedure4'];
+if($pr4)
+{
+$myFile = $txtdest . $txtid . "p4.txt";
+$fh = fopen($myFile, 'w') or die("can't open file");
+$sql_values_fetch_mod = mysql_fetch_array(mysql_query("select * from tblproceduremanagment where fldDescription='$pr4'"));
+$atime=date("Y-m-d H:i:s",time() + 4);
+$acsno = formatDatez($atime);
+
+$sql_Update	= mysql_query("update tblorderdetails set
+fldacsno4='".strtoupper(strip_tags(addslashes($acsno)))."'
+where fldID='".$id."'") or die (mysql_error());
+
+$stringData = $stringData0 . "Accession Number  = " . $acsno . "\n" . "Admitting Diagnoses Discription  = " .$_REQUEST['symptoms4'] . "\n" .  $stringData1 . "Modality = " . $sql_values_fetch_mod['fldModality'] . "\n" ;
+$stringData .= $stringData2 . "Requested Procedure ID =  " . $sql_values_fetch_mod['fldCBTCode'] . "\n"  . "Requested Procedure Description = " . $_REQUEST['plr4'] . " " . $_REQUEST['procedure4'] . "\n";
+fwrite($fh, $stringData);
+fclose($fh);
+}
+
+$pr5 = $_REQUEST['procedure5'];
+if($pr5)
+{
+$myFile = $txtdest . $txtid . "p5.txt";
+$fh = fopen($myFile, 'w') or die("can't open file");
+$sql_values_fetch_mod = mysql_fetch_array(mysql_query("select * from tblproceduremanagment where fldDescription='$pr5'"));
+$atime=date("Y-m-d H:i:s",time() + 5);
+$acsno = formatDatez($atime);
+
+$sql_Update	= mysql_query("update tblorderdetails set
+fldacsno5='".strtoupper(strip_tags(addslashes($acsno)))."'
+where fldID='".$id."'") or die (mysql_error());
+
+$stringData = $stringData0 . "Accession Number  = " . $acsno . "\n" . "Admitting Diagnoses Discription  = " .$_REQUEST['symptoms5'] . "\n" .  $stringData1 . "Modality = " . $sql_values_fetch_mod['fldModality'] . "\n" ;
+$stringData .= $stringData2 . "Requested Procedure ID =  " . $sql_values_fetch_mod['fldCBTCode'] . "\n"  . "Requested Procedure Description = " . $_REQUEST['plr5'] . " " . $_REQUEST['procedure5'] . "\n";
+fwrite($fh, $stringData);
+fclose($fh);
+}
+
+$pr6 = $_REQUEST['procedure6'];
+if($pr6)
+{
+$myFile = $txtdest . $txtid . "p6.txt";
+$fh = fopen($myFile, 'w') or die("can't open file");
+$sql_values_fetch_mod = mysql_fetch_array(mysql_query("select * from tblproceduremanagment where fldDescription='$pr6'"));
+$atime=date("Y-m-d H:i:s",time() + 6);
+$acsno = formatDatez($atime);
+
+$sql_Update	= mysql_query("update tblorderdetails set
+fldacsno6='".strtoupper(strip_tags(addslashes($acsno)))."'
+where fldID='".$id."'") or die (mysql_error());
+
+$stringData = $stringData0 . "Accession Number  = " . $acsno . "\n" . "Admitting Diagnoses Discription  = " .$_REQUEST['symptoms6'] . "\n" .  $stringData1 . "Modality = " . $sql_values_fetch_mod['fldModality'] . "\n" ;
+$stringData .= $stringData2 . "Requested Procedure ID =  " . $sql_values_fetch_mod['fldCBTCode'] . "\n"  . "Requested Procedure Description = " . $_REQUEST['plr6'] . " " . $_REQUEST['procedure6'] . "\n";
+fwrite($fh, $stringData);
+fclose($fh);
+}
+
+$redirecturl = "index.php?pg=20";
+header("location:".$redirecturl);
+
+}
+}
+?>
+
