@@ -812,8 +812,8 @@ if(isset($sql_values_fetch['fldSchDate']))://if schdate has a value
 					<label for="order_type1"><strong>Nursing Home Order</strong></label>
 				</td>
 				<td>
-					<!--<input type='radio' id="order_type2" name='order_type' value="2" onClick="selectOrderType('2')"/>
-					<label for="order_type2"><strong>Correctional Facility</strong></label>-->
+					<input type='radio' id="order_type2" name='order_type' value="2" onClick="selectOrderType('2')"/>
+					<label for="order_type2"><strong>Correctional Facility</strong></label>
 				</td>
 				<td>
 					<input type='radio' id="order_type3" name='order_type' value="3" onClick="selectOrderType('3')"/>
