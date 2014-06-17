@@ -301,8 +301,7 @@ endif;?>
 									<td class="searchlabel" style="background: #CAE8EA;">
 										<input type="checkbox" value="1" name="lab1" id="lab1" />NH<br/>
 										<input type="checkbox" value="2" name="lab2" id="lab2" />CF<br/>
-										<input type="checkbox" value="3" name="lab3" id="lab3" />HB<br/>
-										<input type="checkbox" value="4" name="lab4" id="lab4" />Lab
+										<input type="checkbox" value="3" name="lab3" id="lab3" />HH<br/>
 									</td>
 								</tr>
 							</table>
