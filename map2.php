@@ -329,7 +329,7 @@ mysql_close();
 ?>
 <html>
     <head>
-        <title>MD Imaging  - Order Mapping system</title>
+        <title>MMDS Mobile X-ray  - Order Mapping system</title>
         <link href="menu/menu_style.css" rel="stylesheet" type="text/css">
         <link href="style.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" type="text/css" href="map_images/fancybox/jquery.fancybox-1.3.4.css" media="screen" />
@@ -436,7 +436,7 @@ mysql_close();
             </div>-->
 
 <div style="float: left;width: 100%; padding-top: 100px; padding-bottom: 100px;">
-        <h3>MD Imaging  - Order Mapping system</h3>
+        <h3>MMDS Mobile X-ray  - Order Mapping system</h3>
         <form id="formData" method="POST" action="map.php">
             <table>
                 <tr>

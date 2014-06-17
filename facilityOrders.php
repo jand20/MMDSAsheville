@@ -223,7 +223,7 @@ if($_REQUEST['submit']!='')
 		//die(var_dump($sql_values_fetch));
 	}
 	
-	$typesqlarray		= array("","Nursing Home", "Correctional Facility", "Home Bound", "Physicians Lab");
+	$typesqlarray		= array("","Nursing Home", "Correctional Facility", "Home Health", "Physicians Lab");
 	
 	//die(print_r("Type is -> $type",1));
 	
@@ -815,7 +815,7 @@ if(isset($sql_values_fetch['fldSchDate']))://if schdate has a value
 				</td>
 				<td>
 					<input type='radio' id="order_type3" name='order_type' value="3" onClick="selectOrderType('3')"/>
-					<label for="order_type3"><strong>Home Bound Orders</strong></label>
+					<label for="order_type3"><strong>Home Health Orders</strong></label>
 				</td>
 				<td>
 					<input type='radio' id="order_type4" name='order_type' value="4" onClick="selectOrderType('4')">
@@ -826,7 +826,7 @@ if(isset($sql_values_fetch['fldSchDate']))://if schdate has a value
 	</form>
 <?exit(0);
 else:
-	$typearray = array("","Nursing Home Order","Correctional Facility","Home Bound Orders","Lab Orders");?>
+	$typearray = array("","Nursing Home Order","Correctional Facility","Home Health Orders","Lab Orders");?>
 	<table style="width:1050; border:0; align:center; cellpadding:0; cellspacing:0; background:url('main.png'); padding: 10px;">
 		<tr>
 			<td colspan='8' style='text-align: right; font-weight: bold; font-size: 1.2em; text-decoration: underline;'>

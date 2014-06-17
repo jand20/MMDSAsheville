@@ -298,7 +298,7 @@ else
 		$hi7dest="hi7/";
 		$hi7_time=date("mdY",time());
 
-		$hi7_1="MSH|^~\&|Ig bu|MDImaging|Test|MD Imaging|";
+		$hi7_1="MSH|^~\&|Ig bu|MDImaging|Test|MMDS Mobile X-ray|";
 		$hi7_2 .="||ORM^O01|00000";
 		$hi7_2 .=$hi7_time;
 		$hi7_2 .="|P|2.3|||NE|NE" . "\r";
@@ -321,7 +321,7 @@ else
 		$hi7_21 .="ORC|SC|";
 		$hi7_3 .="|S||^^^";
 		$hi7_3 .=$hi7_time;
-		$hi7_3 .="^^N||||||||||||||MD Imaging" . "\r";
+		$hi7_3 .="^^N||||||||||||||MMDS Mobile X-ray" . "\r";
 		$hi7_3 .="OBR|1|";
 
 		$pr1 = $_REQUEST['procedure1'];

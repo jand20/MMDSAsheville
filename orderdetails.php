@@ -20,7 +20,7 @@ $password = "brasil06";
 */
 
 $type = $sql_values_fetch['fldOrderType'];
-$typearray = array("","Nursing Home Order","Correctional Facility","Home Bound Orders","Lab Orders");
+$typearray = array("","Nursing Home Order","Correctional Facility","Home Health Orders","Lab Orders");
 
 function formatDateddmmyy($dDate)
 {

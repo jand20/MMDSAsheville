@@ -6,7 +6,7 @@ $facid=$sql_values_fetch_usr['fldID'];
 ?>
 <html>
 <head>
-<title>MD Imaging</title>
+<title>MMDS Mobile X-ray</title>
 </head>
 <body>
 <link href="style.css" rel="stylesheet" type="text/css" />

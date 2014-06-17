@@ -295,7 +295,7 @@ $html .=
 //echo $filename;die;
 //$pdf->Ln( 10 );
 $pdf->SetFont( 'Arial', 'B', 20 );
-$pdf->Image('images/logo.png',1,1,50);
+$pdf->Image('images/logo.jpg',1,1,50);
 $pdf->Ln(20);
 //$pdf->Cell( 110, 10, PAGE_TITLE, 0, 0, 'C' );
 $pdf->SetFont( 'Arial', 'B', 10);

@@ -403,7 +403,7 @@
                 $data .= "<option value=''>< - - SELECT - - ></option>";
                 $data .= "<option value='index.php?pg=21&order_type=1&ssn=$ssn'>Add Nursing Home Order for SSN : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=2&ssn=$ssn'>Add Correctional Facility Order for SSN : $ssn</option>";
-                $data .= "<option value='index.php?pg=21&order_type=3&ssn=$ssn'>Add Home Bound Order for SSN : $ssn</option>";
+                $data .= "<option value='index.php?pg=21&order_type=3&ssn=$ssn'>Add Home Health Order for SSN : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=4&ssn=$ssn'>Add Lab Order for SSN : $ssn</option>";
                 $data .= '</select>';
             }
@@ -413,7 +413,7 @@
                 $data .= "<option value=''>< - - SELECT - - ></option>";
                 $data .= "<option value='index.php?pg=21&order_type=1&lname=$ssn'>Add Nursing Home Order for Last Name : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=2&lname=$ssn'>Add Correctional Facility Order for Last Name : $ssn</option>";
-                $data .= "<option value='index.php?pg=21&order_type=3&lname=$ssn'>Add Home Bound Order for Last Name : $ssn</option>";
+                $data .= "<option value='index.php?pg=21&order_type=3&lname=$ssn'>Add Home Health Order for Last Name : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=4&lname=$ssn'>Add Lab Order for Last Name : $ssn</option>";
                 $data .= '</select>';
             }
@@ -423,7 +423,7 @@
                 $data .= "<option value=''>< - - SELECT - - ></option>";
                 $data .= "<option value='index.php?pg=21&order_type=1&fname=$ssn'>Add Nursing Home Order for First Name : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=2&fname=$ssn'>Add Correctional Facility Order for First Name : $ssn</option>";
-                $data .= "<option value='index.php?pg=21&order_type=3&fname=$ssn'>Add Home Bound Order for First Name : $ssn</option>";
+                $data .= "<option value='index.php?pg=21&order_type=3&fname=$ssn'>Add Home Health Order for First Name : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=4&fname=$ssn'>Add Lab Order for First Name : $ssn</option>";
                 $data .= '</select>';
             }
@@ -433,7 +433,7 @@
                 $data .= "<option value=''>< - - SELECT - - ></option>";
                 $data .= "<option value='index.php?pg=21&order_type=1&fclty=$ssn'>Add Nursing Home Order for Facility : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=2&fclty=$ssn'>Add Correctional Facility Order for Facility : $ssn</option>";
-                $data .= "<option value='index.php?pg=21&order_type=3&fclty=$ssn'>Add Home Bound Order for Facility : $ssn</option>";
+                $data .= "<option value='index.php?pg=21&order_type=3&fclty=$ssn'>Add Home Health Order for Facility : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=4&fclty=$ssn'>Add Lab Order for Facility : $ssn</option>";
                 $data .= '</select>';
             }
@@ -445,7 +445,7 @@
                 $data .= "<option value=''>< - - SELECT - - ></option>";
                 $data .= "<option value='index.php?pg=21&order_type=1&flddate=$ssn'>Add Nursing Home Order for Order Date : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=2&flddate=$ssn'>Add Correctional Facility Order for Order Date : $ssn</option>";
-                $data .= "<option value='index.php?pg=21&order_type=3&flddate=$ssn'>Add Home Bound Order for Order Date : $ssn</option>";
+                $data .= "<option value='index.php?pg=21&order_type=3&flddate=$ssn'>Add Home Health Order for Order Date : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=4&flddate=$ssn'>Add Lab Order for Order Date : $ssn</option>";
                 $data .= '</select>';
             }
@@ -455,7 +455,7 @@
                 $data .= "<option value=''>< - - SELECT - - ></option>";
                 $data .= "<option value='index.php?pg=21&order_type=1&exmdate=$ssn'>Add Nursing Home Order for Exam Date : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=2&exmdate=$ssn'>Add Correctional Facility Order for Exam Date : $ssn</option>";
-                $data .= "<option value='index.php?pg=21&order_type=3&exmdate=$ssn'>Add Home Bound Order for Order Exam : $ssn</option>";
+                $data .= "<option value='index.php?pg=21&order_type=3&exmdate=$ssn'>Add Home Health Order for Order Exam : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=4&exmdate=$ssn'>Add Lab Order for Order Exam : $ssn</option>";
                 $data .= '</select>';
             }
@@ -529,7 +529,7 @@
                 $data .= "<option value=''>< - - SELECT - - ></option>";
                 $data .= "<option value='index.php?pg=21&order_type=1&ssn=$ssn'>Add Nursing Home Order for SSN : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=2&ssn=$ssn'>Add Correctional Facility Order for SSN : $ssn</option>";
-                $data .= "<option value='index.php?pg=21&order_type=3&ssn=$ssn'>Add Home Bound Order for SSN : $ssn</option>";
+                $data .= "<option value='index.php?pg=21&order_type=3&ssn=$ssn'>Add Home Health Order for SSN : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=4&ssn=$ssn'>Add Lab Order for SSN : $ssn</option>";
                 $data .= '</select>';
             }
@@ -539,7 +539,7 @@
                 $data .= "<option value=''>< - - SELECT - - ></option>";
                 $data .= "<option value='index.php?pg=21&order_type=1&lname=$ssn'>Add Nursing Home Order for Last Name : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=2&lname=$ssn'>Add Correctional Facility Order for Last Name : $ssn</option>";
-                $data .= "<option value='index.php?pg=21&order_type=3&lname=$ssn'>Add Home Bound Order for Last Name : $ssn</option>";
+                $data .= "<option value='index.php?pg=21&order_type=3&lname=$ssn'>Add Home Health Order for Last Name : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=4&lname=$ssn'>Add Lab Order for Last Name : $ssn</option>";
                 $data .= '</select>';
             }
@@ -549,7 +549,7 @@
                 $data .= "<option value=''>< - - SELECT - - ></option>";
                 $data .= "<option value='index.php?pg=21&order_type=1&fname=$ssn'>Add Nursing Home Order for First Name : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=2&fname=$ssn'>Add Correctional Facility Order for First Name : $ssn</option>";
-                $data .= "<option value='index.php?pg=21&order_type=3&fname=$ssn'>Add Home Bound Order for First Name : $ssn</option>";
+                $data .= "<option value='index.php?pg=21&order_type=3&fname=$ssn'>Add Home Health Order for First Name : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=4&fname=$ssn'>Add Lab Order for First Name : $ssn</option>";
                 $data .= '</select>';
             }
@@ -559,7 +559,7 @@
                 $data .= "<option value=''>< - - SELECT - - ></option>";
                 $data .= "<option value='index.php?pg=21&order_type=1&fclty=$ssn'>Add Nursing Home Order for Facility : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=2&fclty=$ssn'>Add Correctional Facility Order for Facility : $ssn</option>";
-                $data .= "<option value='index.php?pg=21&order_type=3&fclty=$ssn'>Add Home Bound Order for Facility : $ssn</option>";
+                $data .= "<option value='index.php?pg=21&order_type=3&fclty=$ssn'>Add Home Health Order for Facility : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=4&fclty=$ssn'>Add Lab Order for Facility : $ssn</option>";
                 $data .= '</select>';
             }
@@ -626,7 +626,7 @@
                 $data .= "<option value=''>< - - SELECT - - ></option>";
                 $data .= "<option value='index.php?pg=21&order_type=1&ssn=$ssn'>Add Nursing Home Order for SSN : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=2&ssn=$ssn'>Add Correctional Facility Order for SSN : $ssn</option>";
-                $data .= "<option value='index.php?pg=21&order_type=3&ssn=$ssn'>Add Home Bound Order for SSN : $ssn</option>";
+                $data .= "<option value='index.php?pg=21&order_type=3&ssn=$ssn'>Add Home Health Order for SSN : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=4&ssn=$ssn'>Add Lab Order for SSN : $ssn</option>";
                 $data .= '</select>';
             }
@@ -636,7 +636,7 @@
                 $data .= "<option value=''>< - - SELECT - - ></option>";
                 $data .= "<option value='index.php?pg=21&order_type=1&lname=$ssn'>Add Nursing Home Order for Last Name : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=2&lname=$ssn'>Add Correctional Facility Order for Last Name : $ssn</option>";
-                $data .= "<option value='index.php?pg=21&order_type=3&lname=$ssn'>Add Home Bound Order for Last Name : $ssn</option>";
+                $data .= "<option value='index.php?pg=21&order_type=3&lname=$ssn'>Add Home Health Order for Last Name : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=4&lname=$ssn'>Add Lab Order for Last Name : $ssn</option>";
                 $data .= '</select>';
             }
@@ -646,7 +646,7 @@
                 $data .= "<option value=''>< - - SELECT - - ></option>";
                 $data .= "<option value='index.php?pg=21&order_type=1&fname=$ssn'>Add Nursing Home Order for First Name : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=2&fname=$ssn'>Add Correctional Facility Order for First Name : $ssn</option>";
-                $data .= "<option value='index.php?pg=21&order_type=3&fname=$ssn'>Add Home Bound Order for First Name : $ssn</option>";
+                $data .= "<option value='index.php?pg=21&order_type=3&fname=$ssn'>Add Home Health Order for First Name : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=4&fname=$ssn'>Add Lab Order for First Name : $ssn</option>";
                 $data .= '</select>';
             }
@@ -656,7 +656,7 @@
                 $data .= "<option value=''>< - - SELECT - - ></option>";
                 $data .= "<option value='index.php?pg=21&order_type=1&fclty=$ssn'>Add Nursing Home Order for Facility : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=2&fclty=$ssn'>Add Correctional Facility Order for Facility : $ssn</option>";
-                $data .= "<option value='index.php?pg=21&order_type=3&fclty=$ssn'>Add Home Bound Order for Facility : $ssn</option>";
+                $data .= "<option value='index.php?pg=21&order_type=3&fclty=$ssn'>Add Home Health Order for Facility : $ssn</option>";
                 $data .= "<option value='index.php?pg=21&order_type=4&fclty=$ssn'>Add Lab Order for Facility : $ssn</option>";
                 $data .= '</select>';
             }
@@ -828,8 +828,7 @@ $data[] = '
         	if($row['fldAuthorized'] == '0')
         	{
         		$data[] = "<a href='index.php?pg=21&id={$row['fldID']}'>Edit</a>
-        		<a class='$tdclass' href='index.php?pg=29&id={$row['fldID']}'>Details</a>
-        		<a class='$tdclass showPopup' href='ajax_process_order_record.php?action=show_history&id={$row['fldID']}' rel='{$row['fldID']}'>History</a>";
+        		<a class='$tdclass' href='index.php?pg=29&id={$row['fldID']}'>Details</a>";
         	}
         	elseif($row['fldAuthorized'] == '1')
         	{
@@ -838,8 +837,7 @@ $data[] = '
         			$data[] = "<a href='index.php?pg=21&id={$row['fldID']}'>Edit</a><br/>";
         		
         		$data[] = "<nobr><a class='$tdclass showPopup' href='ajax_process_order_record.php?action=show_esign_info&id={$row['fldID']}'> E-Signed</a></nobr>
-        		<a class='$tdclass' href='index.php?pg=29&id={$row['fldID']}'>Details</a>
-        		<a class='$tdclass showPopup' href='ajax_process_order_record.php?action=show_history&id={$row['fldID']}' rel='{$row['fldID']}'>History</a>";
+        		<a class='$tdclass' href='index.php?pg=29&id={$row['fldID']}'>Details</a>";
         	}
         }
 
@@ -847,15 +845,13 @@ $data[] = '
         {
         	if($row['fldAuthorized'] == '0')
         	{
-        		$data[] = "<a href='index.php?pg=21&id={$row['fldID']}>Edit</a>
-        		<a class='$tdclass' href='index.php?pg=29&id={$row['fldID']}'>Details</a>
-        		<a class='$tdclass showPopup' href='ajax_process_order_record.php?action=show_history&id={$row['fldID']}' rel='{$row['fldID']}'>History</a>";
+        		$data[] = "<a href='index.php?pg=21&id={$row['fldID']}'>Edit</a>
+        		<a class='$tdclass' href='index.php?pg=29&id={$row['fldID']}'>Details</a>";
         	}
         	elseif($row['fldAuthorized'] == '1')
         	{
         		$data[] = "<nobr>E-Signed</nobr>
-        		<a class='$tdclass' href='index.php?pg=29&id={$row['fldID']}'>Details</a>
-        		<a class='$tdclass showPopup' href='ajax_process_order_record.php?action=show_history&id={$row['fldID']}' rel='{$row['fldID']}'>History</a>";
+        		<a class='$tdclass' href='index.php?pg=29&id={$row['fldID']}'>Details</a>"; 
         	}
         }
 
@@ -946,14 +942,12 @@ $data[] = '
          {
         $data[] = "<td class='$tdclass'>
         <a class='$tdclass' href='index.php?pg=29&id={$row['fldID']}'>Details</a>
-        <a class='$tdclass showPopup' href='ajax_process_order_record.php?action=show_history&id={$row['fldID']}' rel='{$row['fldID']}'>History</a>
         </td>";
         }
         else
         {
         $data[] = "<td class='$tdclass'>
         <a class='$tdclass' href='index.php?pg=22&id={$row['fldID']}'>Details</a>
-        <a class='$tdclass showPopup' href='ajax_process_order_record.php?action=show_history&id={$row['fldID']}' rel='{$row['fldID']}'>History</a>
         </td>";
         }
 

@@ -48,7 +48,7 @@ $dis=$d;
 ?>
 <html>
 <head>
-<title>MD Imaging</title>
+<title>MMDS Mobile X-ray</title>
 </head>
 <body>
 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" background="main.png">

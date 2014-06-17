@@ -10,7 +10,7 @@ header("Expires: 0");
 ?>
 <html>
 <head>
-<title>MD Imaging</title>
+<title>MMDS Mobile X-ray</title>
 </head>
 <body>
 

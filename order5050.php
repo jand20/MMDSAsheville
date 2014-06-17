@@ -59,7 +59,7 @@ function Header()
     $this->ln(5);
     $this->Cell(3);
     $this->SetFont('Arial','B',7);
-    $this->Cell(30,10,'MD Imaging INC',0,0,'L');
+    $this->Cell(30,10,'MMDS Mobile X-ray INC',0,0,'L');
     $this->ln(10);
     $this->Cell(190,0,'',1,0,'L');
     $this->ln(0);

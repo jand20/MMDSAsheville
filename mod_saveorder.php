@@ -331,7 +331,7 @@ if($_REQUEST['submit']!='')
 		$hi7dest =" hi7/";
 		$hi7_time =d ate("mdY",time());
 
-		$hi7_1 = "MSH|^~\&|Ig bu|MDImaging|Test|MD Imaging|";
+		$hi7_1 = "MSH|^~\&|Ig bu|MDImaging|Test|MMDS Mobile X-ray|";
 		$hi7_2 .= "||ORM^O01|00000";
 		$hi7_2 .= $hi7_time;
 		$hi7_2 .= "|P|2.3|||NE|NE" . "\r";
@@ -354,7 +354,7 @@ if($_REQUEST['submit']!='')
 		$hi7_21 .= "ORC|SC|";
 		$hi7_3 .= "|S||^^^";
 		$hi7_3 .= $hi7_time;
-		$hi7_3 .= "^^N||||||||||||||MD Imaging" . "\r";
+		$hi7_3 .= "^^N||||||||||||||MMDS Mobile X-ray" . "\r";
 		$hi7_3 .= "OBR|1|";
 
 		$pr1 = $_REQUEST['procedure1'];
@@ -984,7 +984,7 @@ if($_REQUEST['submit']!='')
 	<tr>
 	</tr>
 	<tr>
-	<td width="560" height="30">I request that payment of authorized Medicare and/or Medigap benefits be made either to me or on my behalf to MD Imaging</td>
+	<td width="560" height="30">I request that payment of authorized Medicare and/or Medigap benefits be made either to me or on my behalf to MMDS Mobile X-ray</td>
 	</tr>
 	<tr>
 	<td width="560" height="30">Services and/or the interpreting physician for any services furnished me by that physician or supplier. I authorize any holder of</td>
@@ -1043,7 +1043,7 @@ if($_REQUEST['submit']!='')
 	</table>';
 	$pdf->Ln(10);
 	$pdf->SetFont('Arial','B',20);
-	$pdf->Cell(110,10,'MD Imaging, Inc.   ',0,0,'C');
+	$pdf->Cell(110,10,'MMDS Mobile X-ray, Inc.   ',0,0,'C');
 	$pdf->Ln();
 	$pdf->SetFont('Arial','B',11);
 	$pdf->Cell(90,10,'Phone 847-626-0800  Fax 847-626-0817',0,0,'C');

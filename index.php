@@ -1,5 +1,5 @@
 <?php #MDI Demo
-if(!defined("PAGE_TITLE")) define("PAGE_TITLE", "MD Imaging");
+if(!defined("PAGE_TITLE")) define("PAGE_TITLE", "MMDS Mobile X-ray");
 
 $debugflag = isset($_REQUEST['debug'])?$_REQUEST['debug']:'';
 $debugflag = false;

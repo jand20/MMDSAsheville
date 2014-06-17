@@ -10,7 +10,7 @@ header("Expires: 0");
 ?>
 <html>
 <head>
-<title>MD Imaging</title>
+<title>MMDS Mobile X-ray</title>
 </head>
 <body>
 <?
@@ -50,7 +50,7 @@ $facphone=$sql_fac['fldPhoneNumber'];
     </tr>
 
     <tr>
-      <td colspan="12"><div align="left">Please return this form to via fax to MD Imaging, Inc. as soon as possible, so that we can expediate<br/>
+      <td colspan="12"><div align="left">Please return this form to via fax to MMDS Mobile X-ray, Inc. as soon as possible, so that we can expediate<br/>
       the information you need to complete your billing, as well as ours. The return fax number is 816-455-2902 <br />
       If you need help or have question with this form, please call 816-413-8355.</div></td>
     </tr>

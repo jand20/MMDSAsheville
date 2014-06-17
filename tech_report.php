@@ -3,7 +3,7 @@ include "config.php";
 ?>
 <html>
 <head>
-<title>MD Imaging</title>
+<title>MMDS Mobile X-ray</title>
 </head>
 <body>
 <link href="style.css" rel="stylesheet" type="text/css" />

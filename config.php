@@ -1,4 +1,4 @@
-<?php # MDI Demoif(!defined('PAGE_TITLE'))	define("PAGE_TITLE", "ASHVILLE");
+<?php # MDI Demoif(!defined('PAGE_TITLE'))	define("PAGE_TITLE", "MMDS Mobile X-ray");
 $servername	= 'localhost';	// MySql Server Name or IP address
 $dbusername	= 'root';		// Login user id
 $dbpassword	= '!MMDS2014!';	// Login password

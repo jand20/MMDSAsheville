@@ -138,7 +138,7 @@ if( $key != "" )
             $data .= "<option value=''>< - - SELECT - - ></option>";
             $data .= "<option value='index.php?pg=21&order_type=1&ssn=$ssn'>Add Nursing Home Order for SSN : $ssn</option>";
             $data .= "<option value='index.php?pg=21&order_type=2&ssn=$ssn'>Add Correctional Facility Order for SSN : $ssn</option>";
-            $data .= "<option value='index.php?pg=21&order_type=3&ssn=$ssn'>Add Home Bound Order for SSN : $ssn</option>";
+            $data .= "<option value='index.php?pg=21&order_type=3&ssn=$ssn'>Add Home Health Order for SSN : $ssn</option>";
             $data .= "<option value='index.php?pg=21&order_type=4&ssn=$ssn'>Add Lab Order for SSN : $ssn</option>";
             $data .= '</select>';
         }
@@ -148,7 +148,7 @@ if( $key != "" )
             $data .= "<option value=''>< - - SELECT - - ></option>";
             $data .= "<option value='index.php?pg=21&order_type=1&lname=$ssn'>Add Nursing Home Order for Last Name : $ssn</option>";
             $data .= "<option value='index.php?pg=21&order_type=2&lname=$ssn'>Add Correctional Facility Order for Last Name : $ssn</option>";
-            $data .= "<option value='index.php?pg=21&order_type=3&lname=$ssn'>Add Home Bound Order for Last Name : $ssn</option>";
+            $data .= "<option value='index.php?pg=21&order_type=3&lname=$ssn'>Add Home Health Order for Last Name : $ssn</option>";
             $data .= "<option value='index.php?pg=21&order_type=4&lname=$ssn'>Add Lab Order for Last Name : $ssn</option>";
             $data .= '</select>';
         }
@@ -158,7 +158,7 @@ if( $key != "" )
             $data .= "<option value=''>< - - SELECT - - ></option>";
             $data .= "<option value='index.php?pg=21&order_type=1&fname=$ssn'>Add Nursing Home Order for First Name : $ssn</option>";
             $data .= "<option value='index.php?pg=21&order_type=2&fname=$ssn'>Add Correctional Facility Order for First Name : $ssn</option>";
-            $data .= "<option value='index.php?pg=21&order_type=3&fname=$ssn'>Add Home Bound Order for First Name : $ssn</option>";
+            $data .= "<option value='index.php?pg=21&order_type=3&fname=$ssn'>Add Home Health Order for First Name : $ssn</option>";
             $data .= "<option value='index.php?pg=21&order_type=4&fname=$ssn'>Add Lab Order for First Name : $ssn</option>";
             $data .= '</select>';
         }            
@@ -168,7 +168,7 @@ if( $key != "" )
             $data .= "<option value=''>< - - SELECT - - ></option>";
             $data .= "<option value='index.php?pg=21&order_type=1&fclty=$ssn'>Add Nursing Home Order for Facility : $ssn</option>";
             $data .= "<option value='index.php?pg=21&order_type=2&fclty=$ssn'>Add Correctional Facility Order for Facility : $ssn</option>";
-            $data .= "<option value='index.php?pg=21&order_type=3&fclty=$ssn'>Add Home Bound Order for Facility : $ssn</option>";
+            $data .= "<option value='index.php?pg=21&order_type=3&fclty=$ssn'>Add Home Health Order for Facility : $ssn</option>";
             $data .= "<option value='index.php?pg=21&order_type=4&fclty=$ssn'>Add Lab Order for Facility : $ssn</option>";
             $data .= '</select>';
         } 

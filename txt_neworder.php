@@ -44,7 +44,7 @@ $stringData2 .= "Scheduled Start Time = " . $schtime . "\n";
 $hi7dest="hi7/";
 $hi7_time=date("mdY",time());
 
-$hi7_1="MSH|^~\&|Ig bu|MDImaging|Test|MD Imaging|";
+$hi7_1="MSH|^~\&|Ig bu|MDImaging|Test|MMDS Mobile X-ray|";
 $hi7_2 .="||ORM^O01|00000";
 $hi7_2 .=$hi7_time;
 $hi7_2 .="|P|2.3|||NE|NE" . "\n";
@@ -67,7 +67,7 @@ $hi7_21 .=$ordphy . "\n";
 $hi7_21 .="ORC|SC|";
 $hi7_3 .="|S||^^^";
 $hi7_3 .=$hi7_time;
-$hi7_3 .="^^N||||||||||||||MD Imaging" . "\n";
+$hi7_3 .="^^N||||||||||||||MMDS Mobile X-ray" . "\n";
 $hi7_3 .="OBR|1|";
 
 $pr1 = $sql_values_fetch_ord['procedure1'];

@@ -19,7 +19,7 @@ $sql_values_fetch = mysql_fetch_array(mysql_query("select *,DATE_FORMAT(tr_modif
 
 $type = $sql_values_fetch['fldOrderType'];
 
-$typearray = array("","Nursing Home Order","Correctional Facility","Home Bound Orders","Lab Orders");
+$typearray = array("","Nursing Home Order","Correctional Facility","Home Health Orders","Lab Orders");
 ?>
 
 <style type="text/css">
