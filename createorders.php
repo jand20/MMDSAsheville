@@ -811,18 +811,18 @@ if(isset($sql_values_fetch['fldSchDate']))://if schdate has a value
 					<input type='radio' id="order_type1" name="order_type" value="1" onClick="selectOrderType('1')"/>
 					<label for="order_type1"><strong>Nursing Home Order</strong></label>
 				</td>
-				<td>
-					<input type='radio' id="order_type2" name='order_type' value="2" onClick="selectOrderType('2')"/>
-					<label for="order_type2"><strong>Correctional Facility</strong></label>
-				</td>
+//				<td>
+//					<input type='radio' id="order_type2" name='order_type' value="2" onClick="selectOrderType('2')"/>
+//					<label for="order_type2"><strong>Correctional Facility</strong></label>
+//				</td>
 				<td>
 					<input type='radio' id="order_type3" name='order_type' value="3" onClick="selectOrderType('3')"/>
 					<label for="order_type3"><strong>Home Health Orders</strong></label>
 				</td>
-				<td>
-					<input type='radio' id="order_type4" name='order_type' value="4" onClick="selectOrderType('4')">
-					<label for="order_type4"><strong>Lab Orders</strong></label>
-				</td>
+//				<td>
+//					<input type='radio' id="order_type4" name='order_type' value="4" onClick="selectOrderType('4')">
+//					<label for="order_type4"><strong>Lab Orders</strong></label>
+//				</td>
 			</tr>
 		</table>
 	</form>

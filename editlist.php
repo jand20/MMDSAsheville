@@ -58,6 +58,12 @@ $sql_values_fetch = mysql_fetch_array(mysql_query("select * from tbllists where 
     <td>&nbsp;</td>
     <td><input type="submit" name="submit" value="Update"></td>
   </tr>
+    <tr>
+    <td>&nbsp;</td>
+    <td class="lab">Code/NPI/Note</td>
+    <td><strong>:</strong></td>
+    <td><input type="text" name="codevalue" value="<?=$sql_values_fetch['code']?>"></td>
+  </tr>
   <tr>
     <td height="10" colspan="4"></td>
   </tr>
@@ -79,6 +85,7 @@ if($_REQUEST['submit']!='')
 $sql_insert = mysql_query("update tbllists set
 fldListName='".strip_tags(addslashes($_REQUEST['listname']))."',
 fldValue='".strip_tags(addslashes($_REQUEST['listvalue']))."',
+code='".strip_tags(addslashes($_REQUEST['codevalue']))."',
 fldActiveValue='".strip_tags(addslashes($_REQUEST['activefield']))."'
 where fldID='".$id."'");
 

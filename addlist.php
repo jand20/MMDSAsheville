@@ -41,6 +41,12 @@ include "config.php";
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
+			<td class="lab">Code/NPI/NOTE</td>
+			<td><strong>:</strong></td>
+			<td><input type="text" name="codevalue"></td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
 			<td><br></td>
 			<td>&nbsp;</td>
 			<td><input type="submit" name="submit" value="Create"></td>
@@ -57,7 +63,8 @@ if($_REQUEST['submit']!='')
 {
 	$sql_insert = mysql_query("insert into tbllists set
 fldListName='".strip_tags(addslashes($_REQUEST['listname']))."',
-fldValue='".strip_tags(addslashes($_REQUEST['listvalue']))."'
+fldValue='".strip_tags(addslashes($_REQUEST['listvalue']))."',
+code='".strip_tags(addslashes($_REQUEST['codevalue']))."'
 ");
 
 if($sql_insert)
