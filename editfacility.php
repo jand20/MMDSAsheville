@@ -248,8 +248,8 @@ if( $_REQUEST['submit'] !=	''	)
 				fldBillingPhone='".strip_tags(addslashes($_REQUEST['facBillingPhone']))."',
 				fldBillingFax='".strip_tags(addslashes($_REQUEST['facBillingFax']))."',
 				fldBillingRep='".strip_tags(addslashes($_REQUEST['facBillingRep']))."',
+				fldAreaZone='".$_REQUEST['facilityzone']."',
 				fldBillingAccNum='".strip_tags(addslashes($_REQUEST['facBillingAccNum']))."',
-				fldAreaZone='".$_REQUEST['facilityzone']."'
 				fldMainState='".$_REQUEST['mainstate']."'
 				where fldID='".$id."'";
 		

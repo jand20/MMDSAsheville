@@ -274,7 +274,7 @@
                     .', modality7 '.$_POST['sortBy'].', modality8 '.$_POST['sortBy']
                     .', modality9 '.$_POST['sortBy'].', modality10 '.$_POST['sortBy'],
             '7' => 'tblfacility.fldDivisionName '.$_POST['sortBy'],
-            '8' => 'tblorderdetails.fldFacilityName '.$_POST['sortBy'].', fldStation '.$_POST['sortBy'],
+            '8' => 'tblorderdetails.fldFacilityName '.$_POST['sortBy'].', tblfacility.fldAreaZone'.$_POST['sortBy'],
             '9' => 'tblorderdetails.fldDOB '.$_POST['sortBy'],
             '10'=> 'tblorderdetails.fldTechnologist '.$_POST['sortBy'],
             '11'=> 'tblorderdetails.fldRequestedBy '.$_POST['sortBy'],
@@ -336,6 +336,7 @@
                                 fldSymptoms,
                                 fldHistory,
                                 tblfacility.fldDivisionName,
+								tblfacility.fldAreaZone,
                                 tblorderdetails.fldStatus AS cancelStatus,
                                 countNotes.totalNotes,
                                 t1.fldModality AS modality1,
@@ -807,7 +808,7 @@ $data[] = '
                 <td class='$tdclass'>{$row['fldDivisionName']}</td>
                 <td class='$tdclass'>
                     <a class='$tdclass showPopup' href='ajax_process_order_record.php?action=show_fac&id={$row['fldID']}'>
-                        {$row['fldFacilityName']}-{$row['fldStation']}
+                        {$row['fldFacilityName']}-{$row['fldAreaZone']}
                     </a>
                 </td>
                 <td class='$tdclass'>{$row['fldTechnologist']}</td>
