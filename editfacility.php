@@ -56,6 +56,10 @@ td:not(.lab) {text-align: left;}
 					</select>
 		</tr> */?>	
 		 <tr>
+			<td class="lab">Zone</td>
+			<td><input type="text" name="facilityzone" value="<?=$sql_values_fetch['fldAreaZone']?>"></td>
+		</tr>
+		<tr>
 			<td class="lab">Facility Type:</td>
 			<td><? doSelect('facilitytype',$ftypearray,$sql_values_fetch['fldFacilityType'],'required'); ?></td>
 		</tr>
@@ -245,6 +249,7 @@ if( $_REQUEST['submit'] !=	''	)
 				fldBillingFax='".strip_tags(addslashes($_REQUEST['facBillingFax']))."',
 				fldBillingRep='".strip_tags(addslashes($_REQUEST['facBillingRep']))."',
 				fldBillingAccNum='".strip_tags(addslashes($_REQUEST['facBillingAccNum']))."',
+				fldAreaZone='".$_REQUEST['facilityzone']."'
 				fldMainState='".$_REQUEST['mainstate']."'
 				where fldID='".$id."'";
 		

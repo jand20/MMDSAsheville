@@ -73,6 +73,12 @@ $(document).ready(function() {
   </tr> unused -->
 		<tr>
 			<td>&nbsp;</td>
+			<td class="lab">Zone</td>
+			<td><strong>:</strong></td>
+			<td><input type="text" name="facilityzone"></td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
 			<td class="lab">Facility Order Type</td>
 			<td><strong>:</strong></td>
 			<td><? doSelect('facilitytype',$ftypearray,'','required'); ?></td>
@@ -385,6 +391,7 @@ if($_REQUEST['submit']!='')
     fldBillingAccNum='".strip_tags(addslashes($_REQUEST['facBillingAccNum']))."',
     fldMainState='".$_REQUEST['mainstate']."',
     fldStartDate='".$_REQUEST['startdate']."',
+	fldAreaZone='".$_REQUEST['facilityzone']."',
     fldFacilityDisabled='".strip_tags(addslashes($_REQUEST['facActive']))."'";
     
     /* print_r($strSQL);
