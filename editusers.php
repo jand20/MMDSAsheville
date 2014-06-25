@@ -125,21 +125,7 @@ $(document).ready(function() {
   <tr>
     <td height="10" colspan="4"></td>
   </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td class="lab">Main State</td>
-    <td><strong>:</strong></td>
-    <td>
-		<select name='mainstate' id='mainstate' class='required'>
-			<option value=''></option>
-		<?
-		foreach ($states as $state):
-			$selected = ($sql_values_fetch['fldMainState'] === $state['fldSt'])?'selected="selected"':'';
-			echo "<option value='{$state['fldSt']}' $selected>{$state['fldState']}</option>";
-		endforeach;
-		?>
-		</select>
-  </tr>
+  
   <tr>
     <td height="10" colspan="4"></td>
   </tr>  
@@ -191,7 +177,6 @@ if($_REQUEST['submit']!='') # fldFacility='".strip_tags(addslashes($_REQUEST['fa
 		fldPhone='".phone_number($_REQUEST['phone'])."',
 		fldEmailPref='".strip_tags(addslashes($_REQUEST['emailchk']))."',
 		fldSMSPref='".strip_tags(addslashes($_REQUEST['phonechk']))."',
-		fldMainState='".$_REQUEST['mainstate']."',
 		fldPWChange='".$_REQUEST['pwchange']."'
 		WHERE fldID='".$id."'";
 		

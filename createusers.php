@@ -133,21 +133,6 @@ $(document).ready(function() {
     <td height="10" colspan="4"></td>
   </tr>
   <tr>
-    <td>&nbsp;</td>
-    <td class="lab">Main State</td>
-    <td><strong>:</strong></td>
-    <td>
-		<select class="required" name='mainstate' id='mainstate'>
-		<option value=''></option>
-	<?
-	foreach ($states as $state)
-	{
-		echo "<option value='{$state['fldSt']}'>{$state['fldState']}</option>";
-	}
-	?>
-		</select>
-  </tr>
-  <tr>
     <td height="10" colspan="4"></td>
   </tr>
   
@@ -231,7 +216,6 @@ if( $_REQUEST['submit'] != '' )
 		fldFax='".phone_number($_REQUEST['fax'])."',
 		fldEmailPref='".strip_tags(addslashes($_REQUEST['emailchk']))."',
 		fldSMSPref='".strip_tags(addslashes($_REQUEST['phonechk']))."',
-		fldMainState='".$_REQUEST['mainstate']."',
 		fldPWChange='".$_REQUEST['pwchange']."'";
 	
 	$sql_insert	= mysql_query($strSQL);

@@ -30,7 +30,7 @@ function PIDGen()
 	//echo $sql;
 	$result = mysql_query($sql) or die(mysql_error()." $sql");
 	$maxID = 1;
-	
+
 	if(mysql_num_rows($result) > 0)
 	{
 		while($row = mysql_fetch_array($result))
@@ -105,28 +105,28 @@ if($_REQUEST['submit'] !== '')
 		else:
 			$sql = "SELECT * FROM tblorderdetails WHERE fldPatientSSN = '{$_REQUEST['patientssn']}' AND (fldFirstName <> '{$_REQUEST['firstname']}' OR fldLastName <> '{$_REQUEST['lastname']}' OR fldPatientID <> '".getPID()."')";
 		endif;
-		
+
 		//die(print_r($sql,true));
-		
+
 		$result = mysql_query($sql);
-		
+
 		$errcount = mysql_num_rows($result);
 		if($errcount > 0):
 			$row = mysql_fetch_array($result);?>
-						
+
 			<style type="text/css">
 				.rowone td{background-color:#FFFFFF;vertical-align:top;padding:10px;}
 				.rowtwo td{background-color:#E9E9E9;vertical-align:top;padding:10px;}
 			</style>
 			<center>
 				<form method='post'>
-				
+
 			<?echo "<input type='hidden' name='conflictorder' value='{$row['fldID']}'>\n";
-			
+
 			foreach ($_REQUEST as $key => $value):
 				echo "<input type='hidden' name='$key' value='$value'>\n";
 			endforeach;?>
-			
+
 			<table>
 				<tr class='rowone'>
 					<td colspan='3'>There is a conflict in patient info!<br/><?//=$sql?></td>
@@ -172,7 +172,7 @@ if($_REQUEST['submit'] !== '')
 			</table>
 		</form></center><?//this finishes the tags from index.php... FIXME?>
 		<?exit(0);
-		
+
 		endif;
 	endif;
 }
@@ -180,22 +180,22 @@ if($_REQUEST['submit'] !== '')
 
 	$user				= $_SESSION['user'];
 	$sql_values_fetch	= mysql_fetch_array(mysql_query("select * from tbluser where fldUserName='$user'"));
-	
+
 	$fac				= $sql_values_fetch['fldFacility'];
 	$uid				= $sql_values_fetch['fldID'];
 	$loginstate			= $sql_values_fetch['fldMainState'];
 	$loginrole			= $sql_values_fetch['fldRole'];
-	
+
 	$facy				= (isset($_REQUEST['facility'])?$_REQUEST['facility']:'');
-	
+
 	$facstate			= mysql_fetch_row(mysql_query("select * from tblfacility where fldFacilityName='$facy'"));
-	
+
 	$host				= "mail.mdipacs.net";
 	$username			= "dpotter";
 	$password			= "brasil06";
-	
+
 	$loadrecord		= (isset($_REQUEST['load'])?$_REQUEST['load']:'');
-	
+
 	$type				= (isset($_REQUEST['order_type'])?$_REQUEST['order_type']:'');
 	//get order record if edit
 	if(!empty($_REQUEST['id']))
@@ -207,18 +207,18 @@ if($_REQUEST['submit'] !== '')
 
 		//die(var_dump($sql_values_fetch));
 	}
-	
+
 	$typesqlarray		= array("","Nursing Home", "Correctional Facility", "Home Health", "Physicians Lab");
-	
+
 	//die(print_r("Type is -> $type",1));
-	
+
 	if ($type < 1 ) $type = 0;
-	
+
 	$eventtype		= 'Add';
-	
+
 	//die($type);
 	//die($submit);
-	
+
 	if($submit !== ''):
 		function formatdate($sDate1)
 		{
@@ -226,7 +226,7 @@ if($_REQUEST['submit'] !== '')
 			$sDate1 = $sDate[2].'-'.$sDate[0].'-'.$sDate[1];
 			return $sDate1;
 		}
-	
+
 		function phone_number($sPhone)
 		{
 			$sPhone = ereg_replace("[^0-9]",'',$sPhone);
@@ -237,64 +237,64 @@ if($_REQUEST['submit'] !== '')
 			$sPhone = "($sArea)$sPrefix-$sNumber";
 			return($sPhone);
 		}
-	
+
 		$newdob		= formatdate($_REQUEST['dob']);
-	
+
 		$cretime	= date("Y-m-d",time());
-	
+
 		$orddate = date('Y-m-d H:i',strtotime(formatdate($_REQUEST['schdate1']) . ' ' . $_REQUEST['schdate2']));
-	
+
 		$schdate = ($type == 4)
 			?date('Y-m-d H:i',strtotime(formatdate($_REQUEST['schdate12']).' '.$_REQUEST['fldSOtime']))
 			:date('Y-m-d',strtotime(formatdate($_REQUEST['schdate12']) . ' ' . $_REQUEST['schdate22']));
-	
+
 		$cddate = formatdate($_REQUEST['cddate']);
 		$ordphynidb = 0;
 		$ordphy = $_REQUEST['orderingphysicians'];
-		
+
 		if($ordphy === "new"):
 			$ordphy = $_REQUEST['phynew'];
 			$ordphynidb = 1;
 		endif;
-	
+
 		$dispatched = 0;
 		$facy = $_REQUEST['facility'];
-	
+
 		$adisp = $sql_values_fetch_fac['fldAutoDispatch'];
 		if($adisp==1):
 			$sql_values_fetch_fac = mysql_fetch_array(mysql_query("select * from tblfacility where fldFacilityName='$facy'"));
 			$technologist=$sql_values_fetch_fac['fldTechnologist'];
 			$dispatched=1;
 		endif;
-		
+
 		$billed = ($_REQUEST['billfacility'])?'facility':'insurance';
-		
+
 		if($_REQUEST['testpriority1']) $testpriority = '1';
-	
+
 		if($_REQUEST['testpriority2']) $_REQUEST['stat'] = '1';
-	
+
 		if($_REQUEST['fieldrepeat'] != 1 ):
 			$_REQUEST['repeatdays'] = '';
 			$_REQUEST['repeattimes'] = '';
 		endif;
-	
+
 		if($_REQUEST['station'] === 'Select') $_REQUEST['station'] = '';
-		
+
 		if($_REQUEST['facility'] === 'Select') $_REQUEST['facility'] = '';
-		
+
 		if($_REQUEST['sex'] === 'Select') $_REQUEST['sex'] = '';
-		
+
 		if($_REQUEST['fldPrivateAddressState'] === 'Select a State') $_REQUEST['fldPrivateAddressState'] = '';
-		
+
 		$fieldschedday;
-	
+
 		if($_REQUEST['fldID'] !== '' && $_REQUEST['neworder'] != 1):
 			$startsql = "UPDATE tblorderdetails SET modified_by = '".$_SESSION['user']."',modified_date=NOW(),";
 			$eventtype = 'Edit';
 		else:
 			$startsql = "INSERT INTO tblorderdetails SET fldDispatched='".strtoupper(strip_tags(addslashes($dispatched)))."', created_date = '".date('Y-m-d H:i:s')."', fldCreDate='".strtoupper(strip_tags(addslashes($cretime)))."',created_by = '".$_SESSION['user']."',";
 		endif;
-	
+
 		$setsql .= "fldPatientID='".strtoupper(strip_tags(addslashes(getPID())))."',
 					fldDate='".strtoupper(strip_tags(addslashes($orddate)))."',
 					fldPatientSSN='".strtoupper(strip_tags(addslashes($_REQUEST['patientssn'])))."',
@@ -398,37 +398,38 @@ if($_REQUEST['submit'] !== '')
 					fldNotes ='".strip_tags(addslashes($_REQUEST['notes']))."',
 					fldbilled ='".$billed."',
 					fldOPNotinDB ='".$ordphynidb."',
+					fldHospice ='".$_REQUEST['hospice']."',
 					fldOrderType ='".$type."'";
-	
+
 		$repeatsql = "fldRepeat ='".$_REQUEST['fieldrepeat']."', fldSchDate='".strtoupper(strip_tags(addslashes($schdate)))."', fldSchTime = '".$_POST['fldSchTime']."', fldRepeatDays ='".$_REQUEST['repeatdays']."', fldRepeatTimes ='".$_REQUEST['repeattimes']."'";
-	
+
 		$insertsql = ($_REQUEST['fldID'] && $_REQUEST['neworder'] != 1)?"$startsql $setsql,$repeatsql WHERE fldID='".$_REQUEST['fldID']."'":"$startsql $setsql,$repeatsql";
-	
+
 		$check_result = mysql_query("select * from tblorderdetails where fldID='".$_REQUEST['fldID']."'");
 		$check_values = mysql_fetch_array( $check_result );
-	
+
 		//die(print_r($insertsql, true));
 		$sql_insert = mysql_query($insertsql) or die(mysql_error()." $insertsql");
-	
+
 		if($_REQUEST['fldID']):
 			$id = $_REQUEST['fldID'];
 		else:
 			$id		= mysql_insert_id();
 			$txtid	= $id;
 		endif;
-	
+
 		if($sql_insert):
 			//insert into icd table for no apparent reason
 			$sqlinsertquery = "insert into tblicdcodes set fldOrderid='".(strip_tags(addslashes($id)))."'";
 			$sql_insert_icd = mysql_query($sqlinsertquery) or die (mysql_error().$sqlinsertquery);
-		
+
 			//create unsigned pdf of order
 			if($sql_insert_icd)
 			{
 				include "pdf_neworder.php";
 				echo "PDF OK<br/>";
 			}
-			
+
 			//if all that works create MWL entry
 			if(createMWL($id) === FALSE):
 				echo "<br/>MWL Fail<br/>";
@@ -436,37 +437,37 @@ if($_REQUEST['submit'] !== '')
 			endif;
 			echo "MWL OK<br/>";
 		endif;
-	
+
 		$sql = "INSERT INTO tblhistory(fldID,fldEventType,flduser) values ('$id','$eventtype','".$_SESSION['user']."');";
 		mysql_query($sql) or die(mysql_error()." on query:<br/> $sql");
 		echo "History OK";
 	endif;
-	
+
 	if($id !== ""):
 		if($_REQUEST['neworder'] == 1 && $submit === ''):
 			if($type === '3'):
 				$address = ",fldPatientroom,fldPrivateAddressLine1,fldPrivateAddressLine2,fldPrivateAddressCity,fldPrivateAddressState,fldPrivateAddressZip,fldPrivateResidenceNumber";
 			endif;
-	
+
 			$sql = "select fldFirstName,fldLastName,fldMiddleName,fldSurName,fldDOB,fldGender,fldPatientSSN,fldPatientID,fldSurName,fldGender,fldFacilityName,fldLocFacName,fldStation,fldOrderingPhysicians,fldInsurance,fldMedicareNumber,fldMedicaidNumber,fldInsuranceCompanyName,fldHmoContract,fldPolicy,fldGroup,fldResponsiblePerson,fldRelationship,fldPrivatePhoneNumber,fldbilled,fldpps,fldState $address FROM tblorderdetails where fldID = '$id'";
 			$id = '';
 		else: $sql = "select * from tblorderdetails where fldID = '$id'";
 		endif;
-		
+
 		//echo "<br/> $sql";
-		
+
 		$result = mysql_query($sql) or die (mysql_error()." $sql");
-		
+
 		$sql_values_fetch = mysql_fetch_array($result);
-		
+
 		$type =($sql_values_fetch['fldOrderType'] > 0 && $type < 1 )?$sql_values_fetch['fldOrderType']:$type;
 	endif;
-	
-	
+
+
 	//if($loadrecord == 1) $type = 0;
-	
+
 	# NEW SEARCH FEATURE
-	
+
 	if(isset($_REQUEST['ssn']) && empty($sql_values_fetch['fldPatientSSN'])):
 		$sql_values_fetch['fldPatientSSN'] = $_REQUEST['ssn'];
 	elseif(isset($_REQUEST['fname']) && empty($sql_values_fetch['fldFirstName'])):
@@ -480,7 +481,7 @@ if($_REQUEST['submit'] !== '')
 	elseif(isset($_REQUEST['exmdate']) && empty($sql_values_fetch['fldSchDate'])):
 		$sql_values_fetch['fldSchDate'] = $_REQUEST['exmdate'];
 	endif;
-	
+
 	//echo "<br/>savennew is: <br/>".$_REQUEST['savennew']."<br/>savecnew is: <br/>".$_REQUEST['savecnew'];
 
 if(!empty($_REQUEST['savennew']))://if add and create new order for same ORDER TYPE
@@ -505,10 +506,10 @@ else://new BLANK order
 		var stat = document.getElementsByName('stat')[0];
 		if (stat && stat.checked)
 			<?=($_SESSION['role'] === 'facilityuser')?'alert("your text here"); return false;':'';?>
-			
+
 		return true;
 	}
-	
+
 	function search_prompt()
 	{
 		var retVal="";
@@ -522,7 +523,7 @@ else://new BLANK order
 			alert("There was an error getting patient data. Please try again or call support");
 		}
 	}
-	
+
 	function newpt()
 	{
 		location.replace('?pg=42');
@@ -533,8 +534,8 @@ else://new BLANK order
 		$location = window.location.href.replace(/&load\=1/,'&neworder=1');
 		window.location.href = $location.replace(/#$/,'')+'&order_type='+type;
 	}
-	
-	
+
+
 	function cdenable()
 	{
 		if (document.getElementById('cdrequested').value != 0){
@@ -570,13 +571,13 @@ else://new BLANK order
 			alert("Please enter Last Name!");
 			return false;
 		}
-		
+
 		if (!document.getElementById('patientid').value)
 		{
 			alert("Please enter Patient ID!");
 			return false;
 		}
-		
+
 		showModalDialog("patienthistory.php?lastname="+document.getElementById('lastname').value+"&patientmr="+document.getElementById('patientid').value);
 		//window.open("patienthistory.php?lastname="+document.getElementById('lastname').value+"&patientmr="+document.getElementById('patientid').value,'history')
 	}
@@ -590,17 +591,17 @@ else://new BLANK order
 			if(ssnobj.value.length == 11)
 			{
 				var re = /(\d\d\d)(\d\d)(\d\d\d\d)/;
-	
+
 				if(ssnobj.value.match(re))
 				{
 					ssnobj.value = RegExp.$1+"-"+RegExp.$2+"-"+RegExp.$3;
 				}
-	
+
 				return true;
 			}
 		},"Invalid SSN"
 	);
-	
+
 	$.validator.addMethod(
 	  "checkSymptom",
 	  function(value, element) {
@@ -729,7 +730,7 @@ else://new BLANK order
 	$("#patientssn").mask("999-99-9999");
 	$("#dob").mask("99-99-9999");
 	$("[id^='schdate1']").mask("99-99-9999");
-	
+
 
   	$(".datepicker").datepicker({
   		changeMonth: true,
@@ -840,6 +841,7 @@ else:
 			<td colspan="2"><span class="lab">Date/Time Order Placed</span></td>
 			<td colspan="2"><span class="lab">Date/Time Exam Scheduled </span></td>
 			<td><span class="lab" style="color: red;">STAT</span></td>
+			<td><span class="lab" style="color: red;">Hospice</span></td>
 		</tr>
 		<tr>
 			<td colspan="2">
@@ -851,6 +853,27 @@ else:
 				<input name="fldSchTime" type="text" id="fldSchTime" class="timepicker required" value=""/>
 			</td>
 			<td><input name="stat" type="checkbox" class="chk" <?=($sql_values_fetch['fldStat'] == 1)?'checked="checked"':''?>/></td>
+			<td>
+				<select id="hospice" name="hospice">
+					<?php
+						$hospiceOption = array(
+							'1'	=> 'Yes',
+							'0'	=> 'No'
+						);
+						foreach($hospiceOption as $value => $text)
+						{
+							if($sql_values_fetch['fldHospice'] == $value)
+							{
+								echo "<option value='$value' selected='selected'>$text</option>";
+							}
+							else
+							{
+								echo "<option value='$value'>$text</option>";
+							}
+						}
+					?>
+				</select>
+			</td>
 		</tr>
 		<tr><td colspan='8'>&nbsp;<hr/></td></tr>
 		<!-- Patient Demographics -->
@@ -908,10 +931,10 @@ else:
 			else:
 				$sql="SELECT * FROM tblfacility WHERE fldFacilityDisabled != '1' AND fldFacilityType = '".$typesqlarray[$type]."' ORDER BY fldFacilityName";
 			endif;
-			
+
 			#echo $sql;
 			$result = mysql_query($sql);
-			
+
 			while($row = mysql_fetch_array($result)):
 				$selected = '';
 				if(strtoupper($sql_values_fetch['fldFacilityName']) === strtoupper($row['fldFacilityName'])):
@@ -968,7 +991,7 @@ else:
 				//elseif($_SESSION['role'] === 'admin'): $sql="SELECT * FROM tblfacility WHERE fldFacilityDisabled != '1' ORDER BY fldFacilityName";
 				else: $sql="SELECT * FROM tblfacility WHERE fldFacilityDisabled != '1' ORDER BY fldFacilityName";
 				endif;
-				
+
 				$result = mysql_query($sql);
 				while($row = mysql_fetch_array($result)):
 					$selected = '';
@@ -1067,7 +1090,7 @@ else:
 			<td colspan="8"><input name="symptoms" type="text" value="<?=$sql_values_fetch['fldSymptoms']?>" size="150" /></td>
 		</tr>
 	<?endif;
-	
+
 	if($type!=4):?>
 		<tr><td colspan='8'>&nbsp;<hr/></td></tr>
 		<?if(empty($sql_values_fetch['fldPatientID']) || empty($sql_values_fetch['fldProcedure1'])):?>
@@ -1121,7 +1144,7 @@ else:
 					<option value="">Select</option>
 				<?$sql="SELECT fldValue FROM tbllists WHERE fldListName='icd' order by fldValue";
 				$result = mysql_query($sql);
-				
+
 				while($row = mysql_fetch_array($result)):?>
 					<option value="<?=$row['fldValue']?>" <?=($sql_values_fetch["fldSymptom$i"] === $row['fldValue'])?'selected="selected"':'';?>><?=strtoupper($row['fldValue'])?></option>
 				<?endwhile;?>
@@ -1139,7 +1162,7 @@ else:
 					<option selected="selected" value="">Select</option>
 				<?$sql="SELECT * FROM tblproceduremanagment WHERE fldModality='LAB' order by fldDescription";
 				$result = mysql_query($sql);
-				
+
 				while($row = mysql_fetch_array($result)):?>
 					<option value="<?=$row['fldDescription']?>" <?=($sql_values_fetch["fldProcedure$i"] === $row['fldDescription'])?'selected="selected"':''?>><?=strtoupper($row['fldDescription'])?></option>
 				<?endwhile;?>
@@ -1173,12 +1196,12 @@ else:
 				<?while($row = mysql_fetch_array($result)):?>
 					<option value="<?=$row['fldRealName']?>" <?=(!isset($_GET['neworder']) && ($sql_values_fetch['fldOrderingPhysicians'] === $row['fldRealName'])?'selected="selected"':'');?>><?=strtoupper($row['fldRealName'])?></option>
 				<?endwhile;
-				
+
 				$orderID = $_GET['id'];
 				$sql = "SELECT * FROM tblorderdetails WHERE fldID = $orderID";
 				$result = mysql_query($sql);
 				$row = mysql_fetch_array($result);
-					
+
 				//die(print_r($row,1));?>
 					<option value="new" <?=($row['fldOPNotinDB'] === '1')?'selected="selected"':'';?>>Not In List</option>
 				</select>
@@ -1230,7 +1253,7 @@ else:
 					<option selected="selected" value="">Select</option>
 				<?$sql="SELECT * FROM tbllists where fldListName = 'insurance' order by fldValue";
 				$result = mysql_query($sql);
-				
+
 				while($row = mysql_fetch_array($result)):?>
 					<option value="<?=$row['fldValue']?>" <?=($sql_values_fetch['fldInsurance'] === $row['fldValue'])?'selected="selected"':''?>><?=strtoupper($row['fldValue'])?></option>
 				<?endwhile;//TODO continue here?>
@@ -1247,7 +1270,7 @@ else:
 					<option selected="selected" value="">Select a State</option>
 				<?$statesql = "select * from tblstates";
 				$stateres = mysql_query($statesql);
-				
+
 				while($state = mysql_fetch_assoc($stateres)):?>
 					<option value="<?=$state['fldSt']?>" <?=($sql_values_fetch['fldState'] === $state['fldSt'])?'selected="selected"':'';?>><?=$state['fldSt'];?></option>
 				<?endwhile;?>
@@ -1267,7 +1290,7 @@ else:
 			<td><input name="hmo_contract" type="text" value="<?=$sql_values_fetch['fldHmoContract']?>" /></td>
 		</tr>
 	<?endif;
-	
+
 	if($type !=4):?>
 		<tr>
 			<td><span class="lab"><?=($type==2)?"Guarantor:":"Responsible Party:";?></span></td>
@@ -1278,7 +1301,7 @@ else:
 					<option selected="selected" value="">Select</option>
 				<?$sql="SELECT * FROM tbllists where fldListName = 'relationship' order by fldValue";
 				$result = mysql_query($sql);
-				
+
 				while($row = mysql_fetch_array($result)):?>
 					<option value="<?=$row['fldValue']?>" <?=($sql_values_fetch['fldRelationship'] === $row['fldValue'])?'selected="selected"':''?>><?=strtoupper($row['fldValue'])?></option>
 				<?endwhile;?>
@@ -1290,7 +1313,7 @@ else:
 			<td><input name="privatephone" type="text" value="<?=$sql_values_fetch['fldPrivatePhoneNumber']?>"/></td>
 		</tr>
 	<?endif;
-	
+
 	if($type==1 || $type==3):?>
 		<tr>
 			<td class="declaration" colspan="8" style="text-align: center;">

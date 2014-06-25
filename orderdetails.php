@@ -48,7 +48,7 @@ function formatDate22($dDate)
 {
 	$dNewDate = strtotime($dDate);
 	$t = date('g:i A',$dNewDate);
-	
+
 	if( $t == '12:00 AM' ):
 		return '';
 	else:
@@ -83,9 +83,9 @@ function open_win()
 			$pdate=$sql_values_fetch['fldCreDate'];
 			$sign="u";
 		}
-	
+
 	$filename = $dest . $sign . $sql_values_fetch['fldLastName'] . $sql_values_fetch['fldFirstName'] . "_" . $id . ".pdf";
-	
+
 	//die(print_r($filename,true));
 	?>
 	window.open("<?=$filename; ?>");
@@ -103,7 +103,7 @@ function open_win()
 			<td colspan="8" style='text-align: left;'><?//show user created and modified dates if role is dispatcher or admin
 			if($_SESSION['role']==='admin' || $_SESSION['role']==='dispatcher'):
 				$myTemp = array();
-				
+
 				if(!empty($sql_values_fetch['created_by'])):
 					$myTemp[] = "<span class='label'>Ordered by:</span><span class='display'> {$sql_values_fetch['created_by']} {$sql_values_fetch['created_date_formated']}</span>";
 				endif;
@@ -111,7 +111,7 @@ function open_win()
 				if(!empty($sql_values_fetch['modified_by'])):
 					$myTemp[] = "<span class='label'>Last Edited by:</span><span class='display'> {$sql_values_fetch['modified_by']} {$sql_values_fetch['modified_date_formated']}</span>";
 				endif;
-				
+
 				echo implode('<br/>', $myTemp);
 			endif;//=date('m/d/Y g:i A', strtotime($sql_values_fetch['fldDate']));?>
 			</td>
@@ -156,6 +156,10 @@ function open_win()
 		<tr>
 			<td class='label'>Stat:</td>
 			<td class='display'><?=($sql_values_fetch['fldStat'] == 1)?'YES':'NO'?></td>
+		</tr>
+		<tr>
+			<td class='label'>Hospice:</td>
+			<td class='display'><?=($sql_values_fetch['fldHospice'] == 1)?'YES':'NO'?></td>
 		</tr>
 	<?endif;
 if($type==3 || $type==4):?>
@@ -207,6 +211,10 @@ if($type == 4):?>
 			<td class="display">Stat : <?=$sql_values_fetch['fldStat']?></td>
 		</tr>
 		<tr>
+			<td class='label'>Hospice:</td>
+			<td class='display'><?=($sql_values_fetch['fldHospice'] == 1)?'YES':'NO'?></td>
+		</tr>
+		<tr>
 			<td class="label">Ordering Dr.:</td>
 			<td class="display"><?=$sql_values_fetch['fldOrderingPhysicians']?></td>
 		</tr>
@@ -247,6 +255,10 @@ if($type == 1):?>
 			<td class="display"> <?=($sql_values_fetch['fldAfterhours'] == 1)?"YES":"NO"?></td>
 		</tr>
 		<tr>
+			<td class='label'>Hospice:</td>
+			<td class='display'><?=($sql_values_fetch['fldHospice'] == 1)?'YES':'NO'?></td>
+		</tr>
+		<tr>
 			<td class="label">Station:</td>
 			<td class="display"><?=$sql_values_fetch['fldStation']?></td>
 		</tr>
@@ -277,6 +289,10 @@ if($type == 1):?>
 		<tr>
 			<td class="label">Stat:</td>
 			<td class="display"><?=($sql_values_fetch['fldStat'] == 1)?'Yes':'No'?></td>
+		</tr>
+		<tr>
+			<td class='label'>Hospice:</td>
+			<td class='display'><?=($sql_values_fetch['fldHospice'] == 1)?'YES':'NO'?></td>
 		</tr>
 		<tr>
 			<td class="label">Ordering Facility:</td>
@@ -317,7 +333,7 @@ if($type != 4 ): # loop start
 				<td class="label">Accession #:</td>
 				<td class="display"><?=strtoupper($sql_values_fetch["fldacsno$pntr"])?></td>
 			</tr>
-			
+
 			<!-- <tr><?//TODO find out the legitamacy of this section?>
 				<td class="label">ICD9A:</td>
 				<td colspan="2" class="display"><?=strtoupper($sql_values_icd["fldProc{$pntr}icd1"])?></td>
@@ -402,20 +418,7 @@ if($type != 4 ):?>
 		<?endif;?>
 		</tr>
 	<?else:?>
-		<tr>
-			<td class="label">Date Draw/Order Requested:</td>
-			<td class='display'><?=formatDateddmmyy($sql_values_fetch['fldSchDate'])?></td>
-			<td class="label">&nbsp;&nbsp;Standing Order?</td>
-			<td class="display"><?=($sql_values_fetch['fldRepeat'] == 1?'YES': 'NO')?></td>
-		</tr>
-		<tr>
-			<td class="label">Repeat Every:</td>
-			<td class="display"><?=$sql_values_fetch['fldRepeatDays']?> Days.</td>
-		<tr/>
-		<tr>
-			<td class="label">Repeat:</td>
-			<td class="display"><?=$sql_values_fetch['fldRepeatTimes']?> Times.</td>
-		</tr>
+
 	<?endif;?>
 		<tr>
 			<td>&nbsp;</td>
@@ -515,10 +518,10 @@ if($type == 1 || $type == 2):?>
 			<td style="word-wrap: break-word" colspan="5" class="display"><?=strtoupper($sql_values_fetch['fldReportDetails'])?></td>
 		</tr>
 <?endif;
-		
+
 if($_SESSION['role']=='admin' || $_SESSION['role']=='dispatcher'):
 	preg_match("/(\d{4})-(\d\d)-(\d\d) (\d\d:\d\d:\d\d)/",$sql_values_fetch['created_date'],$matches);
-		
+
 	$sql_values_fetch['created_date'] = $matches[2]."-".$matches[3]."-".$matches[1]." ".$matches[4];//FIXME what is this?!
 
 	if($type==1 || $type==3):
@@ -528,12 +531,12 @@ if($_SESSION['role']=='admin' || $_SESSION['role']=='dispatcher'):
 
 			echo "<tr><td class=\"dis\">Esigned by {$sql_values_fetch['fldOrderingPhysicians']} on  {$sql_values_fetch['fldAuthDate']}</td></tr>";
 		endif;
-		
+
 		$sql = "SELECT * FROM tblfacility WHERE fldFacilityName='{$sql_values_fetch['fldFacilityName']}'";
-		
+
 		$res = mysql_query($sql);
 		$fac = mysql_fetch_array($res);
-		
+
 		if($fac['fldReqDis'] ==='0'):?>
 			<tr>
 				<td>&nbsp;</td>

@@ -12,11 +12,11 @@
     require_once 'division_config.php';
     require_once 'config.php';
     require_once 'common.php';
-    
+
     //get map address settings
     $mapSql = "select mapAddress, mapLatLong from tblsettings";
     $result = mysql_query($mapSql);
-    while ($ms = mysql_fetch_assoc($result)) 
+    while ($ms = mysql_fetch_assoc($result))
     {
     	$mapSettings = $ms;
     }
@@ -90,6 +90,8 @@
     {
         $conditions = '';
     }
+
+	$stateSelected = $_POST['state'];
 
     $numOfRecord = 0;
 
@@ -396,7 +398,7 @@ if($role == 'dispatcher')
                 FROM tbluser
             WHERE fldRole = 'technologist'
                 AND fldMainState = '$userState'
-                AND fldStatus='Enabled' 
+                AND fldStatus='Enabled'
             ORDER BY fldRealName
                 ";
 }
@@ -408,7 +410,7 @@ elseif($role == 'admin')
                     fldOnline AS online
                     FROM tbluser
             WHERE fldRole = 'technologist'
-                AND fldStatus='Enabled' 
+                AND fldStatus='Enabled'
             ORDER BY fldRealName
             ";
 }
@@ -454,7 +456,7 @@ function getFilterCombo($types)
 }
 
 ?>
-<!-- 
+<!--
 <html>
     <head>
         <title>MMDS Mobile X-ray  - Order Mapping system</title>
@@ -559,18 +561,18 @@ function getFilterCombo($types)
                     <td>
                     	<select id="state" name="state">
 					<?php
-					$selected = ($sql_values_fetch['fldAddressState'] === 'NY')?'selected="selected"':'';
-					echo "<option value='NY' $selected>NY</option>";
-					
-					/*
 					if(is_array($states[0])):
 						foreach ($states as $state):
-							$selected = ($sql_values_fetch['fldAddressState'] === $state['fldState'])?'selected="selected"':'';
-							echo "<option value='{$state['fldSt']}' $selected>{$state['fldState']}</option>";
+
+							if($state['fldSt'] == $stateSelected)
+								echo "<option value='{$state['fldSt']}' selected='selected'>{$state['fldState']}</option>";
+							else
+								echo "<option value='{$state['fldSt']}' >{$state['fldState']}</option>";
+
 						endforeach;
 					else:
 						echo "<option value='{$states['fldSt']}' selected='selected'>{$states['fldState']}</option>";
-					endif;*/
+					endif;
 					?>
 						</select>
                     </td>
