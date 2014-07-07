@@ -906,7 +906,7 @@ else:
 			<td><input id="dob" name="dob" type="text" class="dobdatepicker" value="<?=($sql_values_fetch['fldDOB']!=''?date('m-d-Y' , strtotime($sql_values_fetch['fldDOB'])):'')?>"/></td>
 			<td><input id="patientssn" name="patientssn" type="text" maxlength='11' value="<?=$sql_values_fetch['fldPatientSSN']?>" /></td>
 			<td>
-				<select name="sex" class="required">
+				<select name="sex">
 					<option value="" <?=($sql_values_fetch['fldGender'] === '')?'selected="selected"':''?>>Select</option>
 					<option value="female" <?=($sql_values_fetch['fldGender'] === 'female')?'selected="selected"':''?>>FEMALE</option>
 					<option value="male" <?=($sql_values_fetch['fldGender'] === 'male')?'selected="selected"':''?>>MALE</option>
@@ -1191,7 +1191,7 @@ else:
 					$sql="SELECT * FROM tbluser where fldRole='orderingphysician' AND fldStatus='Enabled' order by fldRealName";
 				endif;
 				$result = mysql_query($sql);?>
-				<select name="orderingphysicians" class="required" onChange="phyenable();showDr(this.value);">
+				<select name="orderingphysicians" onChange="phyenable();showDr(this.value);">
 					<option selected="selected" value="">Select</option>
 				<?while($row = mysql_fetch_array($result)):?>
 					<option value="<?=$row['fldRealName']?>" <?=(!isset($_GET['neworder']) && ($sql_values_fetch['fldOrderingPhysicians'] === $row['fldRealName'])?'selected="selected"':'');?>><?=strtoupper($row['fldRealName'])?></option>
