@@ -929,7 +929,7 @@ else:
 			/* elseif($_SESSION['role'] === 'admin'):
 				$sql="SELECT * FROM tblfacility WHERE fldFacilityDisabled != '1' AND fldFacilityType = '".$typesqlarray[$type]."' ORDER BY fldFacilityName"; */
 			else:
-				$sql="SELECT * FROM tblfacility WHERE fldFacilityDisabled != '1' AND fldFacilityType = '".$typesqlarray[$type]."' ORDER BY fldFacilityName";
+				$sql="SELECT * FROM tblfacility WHERE fldFacilityDisabled != '1' AND fldFacilityType = '1' ORDER BY fldFacilityName";
 			endif;
 
 			#echo $sql;
