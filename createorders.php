@@ -902,9 +902,9 @@ else:
 			<td><span class="lab">Sex</span></td>
 		</tr>
 		<tr>
-			<td><input name="patientid" id="patientid" type="text" value="<?=getPID()?>" class="required"/></td>
-			<td><input id="dob" name="dob" type="text" class="dobdatepicker required" value="<?=($sql_values_fetch['fldDOB']!=''?date('m-d-Y' , strtotime($sql_values_fetch['fldDOB'])):'')?>"/></td>
-			<td><input id="patientssn" name="patientssn" type="text" maxlength='11' class="required" value="<?=$sql_values_fetch['fldPatientSSN']?>" /></td>
+			<td><input name="patientid" id="patientid" type="text" value="<?=getPID()?>"/></td>
+			<td><input id="dob" name="dob" type="text" class="dobdatepicker" value="<?=($sql_values_fetch['fldDOB']!=''?date('m-d-Y' , strtotime($sql_values_fetch['fldDOB'])):'')?>"/></td>
+			<td><input id="patientssn" name="patientssn" type="text" maxlength='11' value="<?=$sql_values_fetch['fldPatientSSN']?>" /></td>
 			<td>
 				<select name="sex" class="required">
 					<option value="" <?=($sql_values_fetch['fldGender'] === '')?'selected="selected"':''?>>Select</option>
@@ -1068,8 +1068,8 @@ else:
 			<?=($type == 2)?'<td><span class="lab">Housing #:</span></td>':'';?>
 		</tr>
 		<tr>
-			<td><input name="patientroom" type="text" value="<?=$sql_values_fetch['fldPatientroom']?>"/></td>
-			<?=($type == 2)?'<td><input name="privatehousingno" type="text" value="'.$sql_values_fetch['fldPrivateHousingNo'].'"/></td>':''?>
+			<td><input name="patientroom" type="text" value="<?=$sql_values_fetch['fldPatientroom']?>" class="required"/></td>
+			<?=($type == 2)?'<td><input name="privatehousingno" type="text" value="'.$sql_values_fetch['fldPrivateHousingNo'].'" class="required"/></td>':''?>
 		</tr>
 	<?if($type==3):?>
 		<tr><td><br/></td></tr>
