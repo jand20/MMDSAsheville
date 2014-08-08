@@ -1129,7 +1129,7 @@ else:
 					<?endwhile;
 				endif;?>
 				</select>
-				<select name='plr<?=$i?>'>
+				<select name='plr<?=$i?>' class="required">
 					<option value=''>SELECT</option>
 					<option value='NA' <?=($sql_values_fetch["fldplr$i"] === 'NA')?'selected="selected"':'';?>>N/A</option>
 					<option value='LEFT' <?=($sql_values_fetch["fldplr$i"] === 'LEFT')?'selected="selected"':'';?>>LEFT</option>
