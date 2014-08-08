@@ -1140,7 +1140,7 @@ else:
 			</td>
 			<td><span class="lab">Symptom </span></td>
 			<td><span class="lab">
-				<select name='symptoms<?=$i?>' <?=($i==1)?'class="required"':''?>>
+				<select name='symptoms<?=$i?>>
 					<option value="">Select</option>
 				<?$sql="SELECT fldValue FROM tbllists WHERE fldListName='icd' order by fldValue";
 				$result = mysql_query($sql);
