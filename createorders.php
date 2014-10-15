@@ -1129,7 +1129,7 @@ else:
 					<?endwhile;
 				endif;?>
 				</select>
-				<select name='plr<?=$i?>' class="required">
+				<select name='plr<?=$i?>' <?=($i==1)?'class="required"':''?>>
 					<option value=''>SELECT</option>
 					<option value='NA' <?=($sql_values_fetch["fldplr$i"] === 'NA')?'selected="selected"':'';?>>N/A</option>
 					<option value='LEFT' <?=($sql_values_fetch["fldplr$i"] === 'LEFT')?'selected="selected"':'';?>>LEFT</option>
@@ -1140,7 +1140,7 @@ else:
 			</td>
 			<td><span class="lab">Symptom </span></td>
 			<td><span class="lab">
-				<select name='symptoms<?=$i?>>
+				<select name='symptoms<?=$i?>'>
 					<option value="">Select</option>
 				<?$sql="SELECT fldValue FROM tbllists WHERE fldListName='icd' order by fldValue";
 				$result = mysql_query($sql);
