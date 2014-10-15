@@ -278,7 +278,8 @@
             '9' => 'tblorderdetails.fldDOB '.$_POST['sortBy'],
             '10'=> 'tblorderdetails.fldTechnologist '.$_POST['sortBy'],
             '11'=> 'tblorderdetails.fldRequestedBy '.$_POST['sortBy'],
-            '12' => 'tblorderdetails.fldOrderingPhysicians '.$_POST['sortBy']
+            // deleted ordering physician from worklist by commenting out line below and got rid of comma from end of line above (see line 691 and 828)
+            //'12' => 'tblorderdetails.fldOrderingPhysicians '.$_POST['sortBy']
         );
 
         $order = $sortField[$_POST['sortField']];
@@ -679,16 +680,15 @@ $data[] = '
     <thead>
       <tr>
         <th width="7%" class="sortable-text"><a href="#" class="sortColumn" rel="1">Order Date</a></th>
-        <th width="7%" class="sortable-text"><a href="#" class="sortColumn" rel="2">Exam Date</a></th>
-        <th width="6%" class="sortable-text"><a href="#" class="sortColumn" rel="3">Patient ID</a></th>
+        <th width="5%" class="sortable-text"><a href="#" class="sortColumn" rel="2">Exam Date</a></th>
         <th width="8%" class="sortable-text"><a href="#" class="sortColumn" rel="4">Patient Name</a></th>
-        <th width="9%" class="sortable-text"><a href="#" class="sortColumn" rel="5">Procedure</a></th>
-        <th width="10%" class="sortable-text"><a href="#" class="sortColumn" rel="6">Modality</a></th>
-        <th width="8%" class="sortable-text"><a href="#" class="sortColumn" rel="7">Division</a></th>
-        <th width="8%" class="sortable-text"><a href="#" class="sortColumn" rel="8">Facility</a></th>
+        <th width="19%" class="sortable-text"><a href="#" class="sortColumn" rel="5">Procedure</a></th>
+        <th width="6%" class="sortable-text"><a href="#" class="sortColumn" rel="7">Division</a></th>
+        <th width="14%" class="sortable-text"><a href="#" class="sortColumn" rel="8">Facility</a></th>
         <th width="8%" class="sortable-text"><a href="#" class="sortColumn" rel="10">Tech</a></th>
-        <th width="10%" class="sortable-text"><a href="#" class="sortColumn" rel="11" >Ordered by</a></th>
-		<th width="10%" class="sortable-text"><a href="#" class="sortColumn" rel="12" >Orderedering Physician</a></th>';
+        <th width="8%" class="sortable-text"><a href="#" class="sortColumn" rel="11" >Ordered by</a></th>';
+		// deleted ordering physician from worklist by commenting line below and added (';) at end of line above (see line 282 and 828)
+		// <th width="10%" class="sortable-text"><a href="#" class="sortColumn" rel="12" >Ordering Physician</a></th>';
 
 
     if($role == 'orderingphysician')
@@ -821,7 +821,8 @@ $data[] = '
                     <td width='6%' class='$tdclass'><input type='checkbox' name='selected_orders[]' value='{$row['fldID']}' onClick='unselectCheckall();'></td>";
         }
 
-        $data[] = "<td class='$tdclass'>{$row['fldOrderingPhysicians']}</td>";
+        // deleted ordering physician from worklist by commenting out line below (see line 282 and 691)
+        //$data[] = "<td class='$tdclass'>{$row['fldOrderingPhysicians']}</td>";
         $data[] = "<td class='$tdclass'>";
 
     	if($role == 'admin' || $role =='coder')
