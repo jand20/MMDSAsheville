@@ -9,9 +9,9 @@ define('LOGO_FOLDER','logos/');
 //will left out the phone and fax info for speed, can easily be put back
 
 $divisionArray = array(
-        "North" => "North",
-        "West" => "West",
-        "South" => "South");
+        "North Carolina" => "North Carolina",
+        "Kingsport" => "Kingsport",
+        "Asheville" => "Asheville");
     /* "CENTRAL AZ" => array(
         'phone' => '800-395-6535',
         'fax'   => '816-671-1802',
