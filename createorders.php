@@ -1068,7 +1068,7 @@ else:
 			<?=($type == 2)?'<td><span class="lab">Housing #:</span></td>':'';?>
 		</tr>
 		<tr>
-			<td><input name="patientroom" type="text" value="<?=$sql_values_fetch['fldPatientroom']?>" class="required"/></td>
+			<td><input name="patientroom" type="text" value="<?=$sql_values_fetch['fldPatientroom']?>" class="<?=($type == 3)?'':required?>"/></td>
 			<?=($type == 2)?'<td><input name="privatehousingno" type="text" value="'.$sql_values_fetch['fldPrivateHousingNo'].'" class="required"/></td>':''?>
 		</tr>
 	<?if($type==3):?>
