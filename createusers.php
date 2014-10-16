@@ -40,9 +40,27 @@ $(document).ready(function() {
   <? } ?>
   <tr>
     <td>&nbsp;</td>
-    <td class="lab">Real Name</td>
+    <td class="lab">Prefix</td>
     <td><strong>:</strong></td>
-    <td><input type="text" name="realname" class="required" <?=isset($_REQUEST['md'])?'value="'.$_REQUEST['md'].'"':''?>/></td>
+    <td><input type="text" name="prefix" class="chk"</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td class="lab">First Name</td>
+    <td><strong>:</strong></td>
+    <td><input type="text" name="first" class="required"</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td class="lab">Last Name</td>
+    <td><strong>:</strong></td>
+    <td><input type="text" name="last" class="required"</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td class="lab">Suffix</td>
+    <td><strong>:</strong></td>
+    <td><input type="text" name="suffix" class="chk"</td>
   </tr>
   <tr>
     <td height="5" colspan="4"></td>
@@ -113,6 +131,26 @@ $(document).ready(function() {
   <tr>
     <td height="5" colspan="4"></td>
   </tr>
+  
+  <!-- a select box for division populated by table 'tbllists' --> 
+  <tr>
+    <td>&nbsp;</td>
+    <td class="lab">Division</td>
+    <td><strong>:</strong></td>
+    <td>
+      <select name="division">
+	  <option selected="selected" value="">Select</option>
+	  <?
+	  $sql="SELECT * FROM tbllists
+    		WHERE fldListName = 'division' AND fldActiveValue > 0";
+	  $result = mysql_query($sql);
+	  while($row = mysql_fetch_array($result))
+	   {?>
+	  <option value="<?=$row['fldValue']?>"><?=$row['fldValue']?></option>
+	  <? } ?>
+	  </select>  </td>
+  </tr>
+  
   <tr>
     <td>&nbsp;</td>
     <td class="lab">Phone</td>
@@ -132,11 +170,7 @@ $(document).ready(function() {
   <tr>
     <td height="10" colspan="4"></td>
   </tr>
-  <tr>
-    <td height="10" colspan="4"></td>
-  </tr>
-  
-  
+    
   <tr>
     <td>&nbsp;</td>
     <td class="lab">Force Password Change at Next Login</td>
@@ -203,15 +237,28 @@ if( $_REQUEST['submit'] != '' )
 		$sPhone = "(".$sArea.")".$sPrefix."-".$sNumber;
 		return($sPhone);
 	}
+	
+	//concatenate real name from prefix, firstname, lastname, and suffix in this form(Lastname suffix, prefix firstname)
+	//with consideration of blank fields
+	$realName = strip_tags(addslashes($_REQUEST['last']));
+	$realName = $realName.(strlen(strip_tags(addslashes($_REQUEST['suffix']))) > 0 ? " ".strip_tags(addslashes($_REQUEST['suffix'])).", " : ", ");
+	$realName = $realName.(strlen(strip_tags(addslashes($_REQUEST['prefix']))) > 0 ? strip_tags(addslashes($_REQUEST['prefix']))." " : "");
+	$realName = $realName.strip_tags(addslashes($_REQUEST['first']));
+	
 	//Insert the records in to tblAdminAccount
 
 	$strSQL = "INSERT INTO tbluser SET fldUserID='".$string."',
-		fldRealName='".strip_tags(addslashes($_REQUEST['realname']))."',
+		fldRealPrefix='".strip_tags(addslashes($_REQUEST['prefix']))."',
+		fldRealFirst='".strip_tags(addslashes($_REQUEST['first']))."',
+		fldRealLast='".strip_tags(addslashes($_REQUEST['last']))."',
+		fldRealSuffix='".strip_tags(addslashes($_REQUEST['suffix']))."',
+		fldRealName='".$realName."',
 		fldUserName='".strip_tags(addslashes($_REQUEST['username']))."',
 		fldPassword='".md5(strip_tags(addslashes($_REQUEST['password'])))."',
 		fldEmail='".strip_tags(addslashes($_REQUEST['email']))."',
 		fldRole='".strip_tags(addslashes($_REQUEST['role']))."',
 		fldFacility='".strip_tags(addslashes($_REQUEST['facility']))."',
+		fldDivision='".strip_tags(addslashes($_REQUEST['division']))."',
 		fldPhone='".phone_number($_REQUEST['phone'])."',
 		fldFax='".phone_number($_REQUEST['fax'])."',
 		fldEmailPref='".strip_tags(addslashes($_REQUEST['emailchk']))."',
